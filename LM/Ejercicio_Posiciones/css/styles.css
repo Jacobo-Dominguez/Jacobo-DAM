@@ -1,0 +1,103 @@
+/* Importando una fuente personalizada de Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap");
+
+
+* {
+  margin: 0;
+  padding: 0;
+
+
+}
+
+body {
+  background: linear-gradient(to right, #2b3f53, #3496d6);
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  /*NO TOCAR*/
+}
+
+
+.card {
+  width: 400px;
+  height: 250px;
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #d52193, #16e3ef);
+  border-radius: 15px;
+}
+
+.card-content {
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.contact-btn {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 25px;
+  margin-top: 20px;
+  display: inline-block;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.contact-btn:hover {
+  background-color: rgb(208, 208, 208);
+  
+}
+
+
+
+.floating-element {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #ffeb3b, #ff5722);
+  border-radius: 50%;
+  opacity: 0.8;
+  z-index: 10;
+  margin: 10px;
+  animation: move 3s infinite alternate;
+}
+
+@keyframes move {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(20px);
+  }
+}
