@@ -1,0 +1,85 @@
+.tarjeta1{
+    width: 30%;
+    margin: 20px auto;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5%;
+    text-align: center;
+
+    h1{
+        font-family: Arial, Helvetica, sans-serif;
+        color: rgb(50, 100, 100);
+    }
+
+    p{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: rgb(150, 200, 200); 
+        text-align: left;
+        margin-left: 50px;
+    }
+
+    button{
+        border-color: aqua;
+        background-color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    img{
+        width: 60%;
+    }
+}
+
+.tarjeta2{
+    width: 30%;
+    margin: 20px auto;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    
+    img{
+        border-radius: 50%;
+        width: 150px;
+        margin-top: 20px;
+    }
+    .arriba{
+        background-color: rgb(50, 100, 99)
+    }
+    p{
+        color: white;
+        margin-bottom: 10px;
+    }
+    p2{
+        color: rgb(50, 100, 99);
+    }
+    svg{
+        color: rgb(50, 100, 99);
+    }
+}
+
+.tarjeta3{
+    width: 30%;
+    margin: 20px auto;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5%;
+    text-align: center;
+    background-color: rgb(80,80,80);
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    background: repeating-linear-gradient(
+    -45deg,
+    rgb(100, 100, 100),
+    rgb(100, 100, 100) 2px,
+    rgb(80, 80, 80) 7px,
+    rgb(80, 80, 80) 80px
+  );
+
+    h1{
+        color: rgb(255, 128, 0);
+    }
+    ul{
+        color: rgb(255, 128, 0);
+    }
+    img{
+        width: 60%;
+    }
+
+}
