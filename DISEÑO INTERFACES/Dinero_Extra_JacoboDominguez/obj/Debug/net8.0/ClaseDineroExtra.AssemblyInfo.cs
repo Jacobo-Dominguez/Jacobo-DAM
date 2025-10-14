@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClaseDineroExtra")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b02cd0cab1f86a51ec0342fc3a1727f023cd97ef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2928d94f3e84ddc10b6e43ab7b94fc4c0991252a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClaseDineroExtra")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClaseDineroExtra")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
