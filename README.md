@@ -1,6 +1,6 @@
 # 💻 Repositorio — 2º DAM (Desarrollo de Aplicaciones Multiplataforma)
 
-En este repositorio recopilo todos los **proyectos desarrollados durante el segundo curso** del Grado Superior de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.  
+En este repositorio recopilo todos los **proyectos desarrollados durante el primer y segundo curso** del Grado Superior de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.  
 Cada carpeta corresponde a una asignatura e incluye proyectos, ejercicios y prácticas realizadas durante el curso.
 
 ---
