@@ -1,0 +1,143 @@
+﻿<Window x:Class="InterfazWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InterfazWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <!-- HEADER -->
+        <Border Background="#FF2C3E50" DockPanel.Dock="Top" Padding="10">
+            <!-- Separaramos NAV y BUSCADOR+CARRITO  -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" /> <!-- nav -->
+                    <ColumnDefinition Width="Auto" /> <!-- Buscador + carrito -->
+                </Grid.ColumnDefinitions>
+
+                <!-- NAV (izquierda) -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0">
+                    <TextBlock Text="Componentes PC"
+                               Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,15,0"/>
+                    
+                </StackPanel>
+
+                <!-- BUSCADOR + CARRITO (derecha) -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1">
+                    <!-- TextBox con placeholder manejado en code-behind -->
+                    <TextBox x:Name="txtBuscador" Width="220" Height="28" Margin="5"
+                             VerticalContentAlignment="Center"
+                             GotFocus="TxtBuscador_GotFocus" LostFocus="TxtBuscador_LostFocus"/>
+                    <Button Content="🔍" Width="40" Height="28" Margin="5" Click="Buscar_Click"/>
+                    <Button Content="🛒" Width="40" Height="28" Margin="5" Click="AbrirCarrito_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- FOOTER -->
+        <Border Background="#FF2C3E50" DockPanel.Dock="Bottom" Padding="20">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="© 2025 GestiónApp. Todos los derechos reservados."
+                   Foreground="Black" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                    <Button Content="Facebook" Margin="5"/>
+                    <Button Content="Twitter" Margin="5"/>
+                    <Button Content="Instagram" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <!-- PRODUCTO PRINCIPAL -->
+                <Border Background="White" Padding="20" CornerRadius="10" Margin="0 0 0 20"
+                        BorderBrush="#DDD" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="100" Margin="0,0,0,5" Source="/producto5.jpg"/>
+                        <StackPanel Margin="20">
+                            <TextBlock Text="MSI GeForce RTX 5090" FontSize="24" FontWeight="Bold"/>
+                            <TextBlock Text="Tarjeta grafica de ultima generacion con DLSS4 y FrameGeneration."
+                                       TextWrapping="Wrap" Width="400" Margin="0,10,0,10"/>
+                            <TextBlock Text="Precio: 1209,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <Button Content="Agregar al Carrito" Width="150" Click="AgregarProductoDestacado_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- CUADRÍCULA DE PRODUCTOS SECUNDARIOS -->
+                <UniformGrid Columns="3" Rows="2" Margin="0 0 0 20">
+                    <!-- Producto 1 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto1.jpg"/>
+                            <TextBlock Text="Logitech G203" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 19,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="Raton inalambrico óptico de Logitech." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- Producto 2 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto2.jpg"/>
+                            <TextBlock Text="Teclado Mecanico" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 34,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="Teclado mecanico con materiales duraderos de Mars Gaming." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Producto 3 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto3.jpg"/>
+                            <TextBlock Text="Alfombrilla de raton XXL" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 9,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="Alfombrilla de raton amplia de material antideslizante." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- Producto 4 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto4.jpg"/>
+                            <TextBlock Text="Monitor Gaming 23'" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 129,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="Monitor gaming de 23' con panel IPS 144Hz." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Producto 5 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto.jpg"/>
+                            <TextBlock Text="Auriculares Bluetooth Pro" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 59,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="Auriculares inalámbricos con cancelación de ruido y batería de larga duración." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- Producto 6 -->
+                    <Border Background="White" Padding="10" Margin="5" CornerRadius="10"
+                            BorderBrush="#DDD" BorderThickness="1">
+                        <StackPanel>
+                            <Image Height="100" Margin="0,0,0,5" Source="/producto6.jpg"/>
+                            <TextBlock Text="Ryzen 7 7800X 3D" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Text="Precio: 369,99 €" Foreground="Green" FontWeight="SemiBold" Margin="0,2"/>
+                            <TextBlock Text="El procesador para juegos que domina el mundo de la mano de la tecnología AMD 3D V-Cache." TextWrapping="Wrap"/>
+                            <Button Content="Agregar" Margin="0,5,0,0" Click="AgregarProductoSecundario_Click"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
