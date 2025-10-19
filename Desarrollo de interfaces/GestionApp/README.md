@@ -11,7 +11,7 @@ La aplicación permite visualizar y comprar productos (componentes).
 ## 🖼️ Diseño de referencia
 El diseño base fue realizado en **Figma** y muestra una interfaz simplificada de páginas como PC Componentes o Coolmod.
 
-<img width="659" height="502" alt="Figma_DominguezJacobo" src="Desarrollo de interfaces/GestionApp/imagenes/Figma_JacoboDominguez.png" />
+<img width="659" height="502" alt="Figma_DominguezJacobo" src="/imagenes/Figma_JacoboDominguez.png" />
 
 El diseño presenta:
 - Un **menú superior** con opciones como carrito de compra y buscador.
