@@ -49,7 +49,7 @@ Permite registrar y supervisar las tareas de mantenimiento:
 ## 🖼️ Vista previa del proyecto
 
 <p align="center">
-  <img width="80%" alt="Vista previa del sistema" src="/SGH_Hotel_Gran_Descanso/imagenes/Captura de pantalla 2025-10-19 214820.png" />
+  <img width="80%" alt="Vista previa del sistema" src="/Optativa (PHP)/SGH_Hotel_Gran_Descanso/imagenes/Captura de pantalla 2025-10-19 214820.png" />
 </p>
 
 > Interfaz moderna inspirada en paneles administrativos: simple, funcional y visualmente limpia.
@@ -66,22 +66,5 @@ Permite registrar y supervisar las tareas de mantenimiento:
 | **SQL (MySQL)** | Almacenamiento de datos: habitaciones, huéspedes, reservas y mantenimiento. |
 | **PDO (PHP Data Objects)** | Conexión segura entre PHP y la base de datos. |
 | **VS Code** | Entorno de desarrollo utilizado para el proyecto. |
-
----
-
-## 🧠 Arquitectura del sistema
-
-El sistema sigue un enfoque **MVC simplificado**, separando:
-- 🧭 **Modelo:** conexión y consultas SQL (`PDO`).
-- 🧩 **Controlador:** lógica principal (`MainController.php`).
-- 🎨 **Vista:** estructura HTML y formularios interactivos (`MainView.php`).
-
----
-
-## 📦 Descarga del proyecto
-
-Haz clic en el siguiente enlace para descargar el proyecto completo:
-
-[⬇️ **Descargar .ZIP del proyecto**](https://github.com/Benemerito86/2doDAM/blob/640c6590fb18798819da32838b49e4a75855f75b/optativa_dam/GestionGranDescanso/GranDescanso.zip)
 
 ---
