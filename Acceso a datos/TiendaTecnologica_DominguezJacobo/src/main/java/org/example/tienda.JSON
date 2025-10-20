@@ -1,0 +1,108 @@
+{
+    "tienda": {
+        "categorias": [
+            {
+                "id": 1,
+                "nombre": "Electrónica",
+                "productos": [
+                    {
+                        "descripcion": "El último smartphone del mercado.",
+                        "precio": 999.99,
+                        "caracteristicas": {
+                            "bateria": "4500 mAh",
+                            "pantalla": "6.5 pulgadas",
+                            "camara": "48 MP"
+                        },
+                        "id": 101,
+                        "nombre": "Smartphone",
+                        "inventario": 10
+                    },
+                    {
+                        "descripcion": "Pantalla de alta resolución con gran autonomía.",
+                        "precio": 499.99,
+                        "caracteristicas": {
+                            "bateria": "8000 mAh",
+                            "pantalla": "10 pulgadas",
+                            "camara": "12 MP"
+                        },
+                        "id": 102,
+                        "nombre": "Tablet",
+                        "inventario": 15
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "nombre": "Accesorios",
+                "productos": [
+                    {
+                        "descripcion": "Sonido envolvente y cancelación de ruido.",
+                        "precio": 79.99,
+                        "caracteristicas": {
+                            "bateria": "500 mAh",
+                            "pantalla": "No aplica",
+                            "camara": "No aplica"
+                        },
+                        "id": 201,
+                        "nombre": "Auriculares Bluetooth",
+                        "inventario": 25
+                    }
+                ]
+            }
+        ],
+        "usuarios": [
+            {
+                "direccion": {
+                    "numero": 123,
+                    "ciudad": "Madrid",
+                    "calle": "Calle Principal",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "fecha": "2023-11-14",
+                        "productoId": 101,
+                        "cantidad": 2
+                    },
+                    {
+                        "fecha": "2025-10-20",
+                        "productoId": 101,
+                        "cantidad": 1
+                    },
+                    {
+                        "fecha": "2025-10-20",
+                        "productoId": 101,
+                        "cantidad": 1
+                    },
+                    {
+                        "fecha": "2025-10-20",
+                        "productoId": 101,
+                        "cantidad": 1
+                    }
+                ],
+                "id": 1,
+                "nombre": "Juan Pérez",
+                "email": "juanperez@example.com"
+            },
+            {
+                "direccion": {
+                    "numero": 45,
+                    "ciudad": "Barcelona",
+                    "calle": "Avenida del Sol",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "fecha": "2024-05-10",
+                        "productoId": 201,
+                        "cantidad": 1
+                    }
+                ],
+                "id": 2,
+                "nombre": "Ana Gómez",
+                "email": "anagomez@example.com"
+            }
+        ],
+        "nombre": "Mi Tienda Online"
+    }
+}
