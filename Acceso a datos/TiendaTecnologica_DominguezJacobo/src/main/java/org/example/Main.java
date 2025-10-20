@@ -3,82 +3,187 @@ package org.example;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try{
-            // Leer el archivo JSON
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            // Leer JSON
             JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("src/main/java/org/example/tienda.JSON"));
-            JSONObject raiz = (JSONObject) obj;
+            JSONObject raiz = (JSONObject) parser.parse(new FileReader("src/main/java/org/example/tienda.JSON"));
             JSONObject tienda = (JSONObject) raiz.get("tienda");
-
-            // Mostramos la tienda
-            System.out.println("Tienda: " + tienda.get("nombre"));
-
-            // Mostramos al primer usuario
-            JSONArray usuarios =  (JSONArray) tienda.get("usuarios");
-            JSONObject usuario = (JSONObject) usuarios.get(0);
-            System.out.println("Usuario: " + usuario.get("nombre"));
-            System.out.println("Email: " + usuario.get("email"));
-
-            JSONObject direccion =  (JSONObject) usuario.get("direccion");
-            System.out.println("Direccion: " + direccion.get("calle") + " " + direccion.get("numero") + ", "
-                    + direccion.get("ciudad") + " (" + direccion.get("pais") + ")");
-
-            // Mostrar el producto de una categoria
+            JSONArray usuarios = (JSONArray) tienda.get("usuarios");
             JSONArray categorias = (JSONArray) tienda.get("categorias");
-            JSONObject categoria = (JSONObject) categorias.get(0);
-            JSONArray productos = (JSONArray) categoria.get("productos");
-            JSONObject producto = (JSONObject) productos.get(0);
 
-            System.out.println("Producto: " + producto.get("nombre"));
-            System.out.println("Precio: " + producto.get("precio") + "€");
+            JSONObject usuario = null;
+            JSONObject categoria = null;
 
-            // Mostrar el historial de compras
-            JSONArray historial =  (JSONArray) usuario.get("historialCompras");
-            System.out.println("\n Historial de compras:");
+            int opcion;
+            do {
+                System.out.println("\n==== MENÚ TIENDA ====");
+                System.out.println("1. Ver datos del usuario");
+                System.out.println("2. Ver productos de una categoría");
+                System.out.println("3. Ver historial de compras de un usuario");
+                System.out.println("4. Hacer una compra");
+                System.out.println("0. Salir");
+                System.out.print("Seleccione una opción: ");
+                opcion = Integer.parseInt(sc.nextLine());
 
-            if (historial != null && !historial.isEmpty()) {
-                for (Object h : historial) {
-                    JSONObject compra = (JSONObject) h;
-                    System.out.println("- Producto ID: " + compra.get("productoId"));
-                    System.out.println("  Cantidad: " + compra.get("cantidad"));
-                    System.out.println("  Fecha: " + compra.get("fecha"));
+                switch (opcion) {
+                    case 1:
+                        usuario = seleccionarUsuario(usuarios, sc);
+                        mostrarUsuario(usuario);
+                        break;
+
+                    case 2:
+                        categoria = seleccionarCategoria(categorias, sc);
+                        mostrarProductos(categoria);
+                        break;
+
+                    case 3:
+                        usuario = seleccionarUsuario(usuarios, sc);
+                        mostrarHistorial(usuario);
+                        break;
+
+                    case 4:
+                        usuario = seleccionarUsuario(usuarios, sc);
+                        categoria = seleccionarCategoria(categorias, sc);
+                        JSONArray productos = (JSONArray) categoria.get("productos");
+                        JSONObject producto = seleccionarProducto(productos, sc);
+                        hacerCompra(usuario, producto);
+                        guardarJSON(raiz);
+                        break;
+
+                    case 0:
+                        System.out.println("Saliendo...");
+                        break;
+
+                    default:
+                        System.out.println("Opción inválida.");
                 }
-            } else {
-                System.out.println("  (sin compras registradas)");
-            }
 
-            // Simulación de una compra
-            JSONObject nuevaCompra = new JSONObject();
-            nuevaCompra.put("productoId", producto.get("id"));
-            nuevaCompra.put("cantidad", 1);
-            nuevaCompra.put("fecha", "2025-10-20");
-
-            JSONArray historialCompras = (JSONArray) usuario.get("historialCompras");
-            historialCompras.add(nuevaCompra);
-
-            // Guardar el archivo actualizado
-            try (FileWriter file = new FileWriter("src/main/java/org/example/tienda.JSON")) {
-                String jsonString = raiz.toJSONString();
-                String formatted = prettyPrintJSON(jsonString);
-                file.write(formatted);
-                file.flush();
-            }
-
-            System.out.println("\n Compra añadida correctamente al historial.");
-
-
+            } while (opcion != 0);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Método para dar formato bonito al JSON
+    //  SELECCIÓN
+    public static JSONObject seleccionarUsuario(JSONArray usuarios, Scanner sc) {
+        System.out.println("\n--- USUARIOS ---");
+        for (int i = 0; i < usuarios.size(); i++) {
+            JSONObject u = (JSONObject) usuarios.get(i);
+            System.out.println((i + 1) + ". " + u.get("nombre"));
+        }
+        System.out.print("Seleccione usuario: ");
+        int opcion = Integer.parseInt(sc.nextLine());
+        return (JSONObject) usuarios.get(opcion - 1);
+    }
+
+    public static JSONObject seleccionarCategoria(JSONArray categorias, Scanner sc) {
+        System.out.println("\n--- CATEGORÍAS ---");
+        for (int i = 0; i < categorias.size(); i++) {
+            JSONObject c = (JSONObject) categorias.get(i);
+            System.out.println((i + 1) + ". " + c.get("nombre"));
+        }
+        System.out.print("Seleccione categoría: ");
+        int opcion = Integer.parseInt(sc.nextLine());
+        return (JSONObject) categorias.get(opcion - 1);
+    }
+
+    public static JSONObject seleccionarProducto(JSONArray productos, Scanner sc) {
+        System.out.println("\n--- PRODUCTOS ---");
+        for (int i = 0; i < productos.size(); i++) {
+            JSONObject p = (JSONObject) productos.get(i);
+            System.out.println((i + 1) + ". " + p.get("nombre") + " - " + p.get("precio") + "€ (" + p.get("inventario") + " disponibles)");
+        }
+        System.out.print("Seleccione producto: ");
+        int opcion = Integer.parseInt(sc.nextLine());
+        return (JSONObject) productos.get(opcion - 1);
+    }
+
+    //  MOSTRAR
+    public static void mostrarUsuario(JSONObject usuario) {
+        System.out.println("\n--- DATOS DEL USUARIO ---");
+        System.out.println("Nombre: " + usuario.get("nombre"));
+        System.out.println("Email: " + usuario.get("email"));
+        JSONObject direccion = (JSONObject) usuario.get("direccion");
+        System.out.println("Dirección: " + direccion.get("calle") + " " + direccion.get("numero") + ", "
+                + direccion.get("ciudad") + " (" + direccion.get("pais") + ")");
+    }
+
+    public static void mostrarProductos(JSONObject categoria) {
+        System.out.println("\n--- PRODUCTOS EN " + categoria.get("nombre") + " ---");
+        JSONArray productos = (JSONArray) categoria.get("productos");
+        for (Object p : productos) {
+            JSONObject prod = (JSONObject) p;
+            System.out.println("ID: " + prod.get("id") + " | " + prod.get("nombre") +
+                    " - " + prod.get("precio") + "€ (" + prod.get("inventario") + " disponibles)");
+        }
+    }
+
+    public static void mostrarHistorial(JSONObject usuario) {
+        System.out.println("\n--- HISTORIAL DE COMPRAS ---");
+        JSONArray historial = (JSONArray) usuario.get("historialCompras");
+        if (historial == null || historial.isEmpty()) {
+            System.out.println("Sin compras registradas.");
+        } else {
+            for (Object h : historial) {
+                JSONObject compra = (JSONObject) h;
+                System.out.println("- Producto ID: " + compra.get("productoId"));
+                System.out.println("  Cantidad: " + compra.get("cantidad"));
+                System.out.println("  Fecha: " + compra.get("fecha"));
+            }
+        }
+    }
+
+    //  COMPRAS
+    public static void hacerCompra(JSONObject usuario, JSONObject producto) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Cantidad a comprar: ");
+        int cantidad = Integer.parseInt(sc.nextLine());
+
+        long inventario = (Long) producto.get("inventario");
+        if (cantidad > inventario) {
+            System.out.println("No hay suficiente stock.");
+            return;
+        }
+
+        producto.put("inventario", inventario - cantidad);
+
+        JSONObject nuevaCompra = new JSONObject();
+        nuevaCompra.put("productoId", producto.get("id"));
+        nuevaCompra.put("cantidad", cantidad);
+        nuevaCompra.put("fecha", "2025-10-20");
+
+        JSONArray historial = (JSONArray) usuario.get("historialCompras");
+        historial.add(nuevaCompra);
+
+        System.out.println("Compra registrada correctamente.");
+    }
+
+    //  GUARDAR JSON
+    public static void guardarJSON(JSONObject raiz) {
+        try (FileWriter file = new FileWriter("src/main/java/org/example/tienda.JSON")) {
+            String jsonString = raiz.toJSONString();
+            String formatted = prettyPrintJSON(jsonString);
+            file.write(formatted);
+            file.flush();
+            System.out.println("Archivo JSON actualizado correctamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // FORMATEAR JSON (Pedido a ChatGPT porque al ejecutar el programa y añadir
+    // y guardar algo en el JSON perdía el formato y se escribía en una línea)
     public static String prettyPrintJSON(String json) {
         StringBuilder pretty = new StringBuilder();
         int indentLevel = 0;
@@ -89,9 +194,7 @@ public class Main {
             switch (c) {
                 case '"':
                     pretty.append(c);
-                    if (i > 0 && json.charAt(i - 1) != '\\') {
-                        inQuotes = !inQuotes;
-                    }
+                    if (i > 0 && json.charAt(i - 1) != '\\') inQuotes = !inQuotes;
                     break;
                 case '{':
                 case '[':
