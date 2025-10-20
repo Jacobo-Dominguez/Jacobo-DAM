@@ -1,0 +1,34 @@
+# Ignorar toda la carpeta Grado Superior por defecto
+_GRADO SUPERIOR/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.env
+.env/
+
+# Archivos de Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+
+# Archivos de IDEs
+.idea/
+.vscode/
+*.metadata/
+*.classpath
+*.project
+*.settings/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
