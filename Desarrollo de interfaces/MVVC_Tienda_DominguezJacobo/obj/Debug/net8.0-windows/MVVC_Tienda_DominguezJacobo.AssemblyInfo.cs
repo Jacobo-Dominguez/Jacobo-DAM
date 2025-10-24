@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MVVC_Tienda_DominguezJacobo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc66af2e67082beec44b3465dc4b8dbea3371c76")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed1f8b75f188b6597ce1cd3b71a86be004031bfc")]
 [assembly: System.Reflection.AssemblyProductAttribute("MVVC_Tienda_DominguezJacobo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MVVC_Tienda_DominguezJacobo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

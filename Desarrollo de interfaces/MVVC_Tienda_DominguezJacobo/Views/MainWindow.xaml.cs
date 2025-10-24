@@ -43,9 +43,16 @@ namespace MVVC_Tienda_DominguezJacobo.Views
                 return;
             }
 
+            // Guardar en la base de datos
+            GestorBD gestor = new GestorBD();
+            gestor.RegistrarCompra(carrito);
+
             StringBuilder sb = new StringBuilder("Productos en el carrito:\n");
             foreach (var item in carrito) sb.AppendLine($"- {item}");
             MessageBox.Show(sb.ToString());
+
+            // Opcional: limpiar carrito después de guardar
+            carrito.Clear();
         }
 
         private void Buscar_Click(object sender, RoutedEventArgs e)
