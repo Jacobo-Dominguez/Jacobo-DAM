@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\viewmodels\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:viewmodels\\productviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|c:\\users\\jacob\\desktop\\jacobo-dam\\desarrollo de interfaces\\mvvc_tienda_dominguezjacobo\\database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{36BADCFD-EA8B-4C41-B871-458CDC647C25}|MVVC_Tienda_DominguezJacobo.csproj|solutionrelative:database\\sqlquery1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,11 +34,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\Views\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Views\\MainWindow.xaml.cs",
@@ -55,15 +51,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SQLQuery1.sql ",
+              "DocumentIndex": 2,
+              "Title": "SQLQuery1.sql",
               "DocumentMoniker": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\Database\\SQLQuery1.sql",
               "RelativeDocumentMoniker": "Database\\SQLQuery1.sql",
               "ToolTip": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\Database\\SQLQuery1.sql",
               "RelativeToolTip": "Database\\SQLQuery1.sql",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-10-24T14:40:01.174Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T14:40:01.174Z"
             },
             {
               "$type": "Document",
@@ -74,8 +69,7 @@
               "ToolTip": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\Views\\MainWindow.xaml",
               "RelativeToolTip": "Views\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-22T17:26:43.389Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T17:26:43.389Z"
             },
             {
               "$type": "Document",
@@ -87,8 +81,7 @@
               "RelativeToolTip": "Data\\GestorBD.cs",
               "ViewState": "AgIAAHUAAAAAAAAAAAAqwJgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T14:39:48.743Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T14:39:48.743Z"
             },
             {
               "$type": "Document",
@@ -100,21 +93,19 @@
               "RelativeToolTip": "Models\\Producto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T14:39:45.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T14:39:45.004Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "ProductViewModel.cs",
               "DocumentMoniker": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\ViewModels\\ProductViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\ProductViewModel.cs",
               "ToolTip": "C:\\Users\\jacob\\Desktop\\Jacobo-DAM\\Desarrollo de interfaces\\MVVC_Tienda_DominguezJacobo\\ViewModels\\ProductViewModel.cs",
               "RelativeToolTip": "ViewModels\\ProductViewModel.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAowD0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-22T17:26:22.737Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T17:26:22.737Z"
             }
           ]
         }
