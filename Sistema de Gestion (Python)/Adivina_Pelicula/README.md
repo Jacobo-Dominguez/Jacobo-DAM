@@ -12,6 +12,7 @@ Se sigue el patrón **MVC (Modelo-Vista-Controlador)** para separar la lógica d
 
 ## 📂 Estructura del Proyecto
 
+```plaintext
 Adivina_Pelicula/
 │
 ├─ controller/
@@ -30,8 +31,7 @@ Adivina_Pelicula/
 │
 ├─ main.py                       # Punto de entrada del juego
 └─ README.md                     # Documentación del proyecto
-
-
+```
 
 ---
 
