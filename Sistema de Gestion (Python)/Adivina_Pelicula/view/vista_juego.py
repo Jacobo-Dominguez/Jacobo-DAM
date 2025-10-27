@@ -44,6 +44,16 @@ class VistaJuego:
                                   fg="#FFD369", bg="#1c1c1c", wraplength=800, justify="center")
         self.lbl_pista.pack(pady=20)
 
+        # --- Área de pistas (movida dentro del contenedor) ---
+        self.lbl_pistas = tk.Label(contenedor, text="📜 Pistas obtenidas:", font=("Helvetica", 12, "bold"),
+                                   bg="#1c1c1c", fg="#FFD369")
+        self.lbl_pistas.pack(pady=(0, 5))
+
+        self.txt_pistas = tk.Text(contenedor, height=8, width=60, bg="#FFFFFF", fg="#222831", wrap="word")
+        self.txt_pistas.pack(pady=(0, 10))
+        self.txt_pistas.config(state="disabled")
+
+        # --- Botón de pedir pista justo debajo ---
         self.btn_pista = tk.Button(contenedor, text="Pedir Pista (- pts)", font=("Helvetica", 12),
                                    bg="#00ccff", fg="white", command=self.pedir_pista)
         self.btn_pista.pack(pady=5)
@@ -79,10 +89,27 @@ class VistaJuego:
 
     def siguiente_pelicula(self):
         self.controlador.siguiente_pelicula()
+        self.btn_siguiente.config(state="disabled")  # Desactivar hasta que vuelva a acertar
+
+    def habilitar_siguiente(self, habilitar):
+        estado = "normal" if habilitar else "disabled"
+        self.btn_siguiente.config(state=estado)
 
     # ----------------- Métodos para mostrar info -----------------
-    def mostrar_pista(self, pista, puntos):
-        self.lbl_pista.config(text=f"Pista: {pista}\nPuntos restantes: {puntos}")
+    def mostrar_pista(self, pista, puntos_restantes):
+        """Muestra una nueva pista y la agrega al historial."""
+        self.txt_pistas.config(state="normal")
+        self.txt_pistas.insert(tk.END, f"• {pista}\n")
+        self.txt_pistas.insert(tk.END, f"(Puntos actuales: {puntos_restantes})\n\n")
+        self.txt_pistas.config(state="disabled")
+        self.txt_pistas.see(tk.END)  # Hacer scroll automático hacia abajo
+
+    def limpiar_pistas(self):
+        """Borra el historial de pistas al iniciar una nueva película."""
+        self.txt_pistas.config(state="normal")
+        self.txt_pistas.delete("1.0", tk.END)
+        self.txt_pistas.config(state="disabled")
+
 
     def mostrar_mensaje(self, texto):
         messagebox.showinfo("Información", texto)
