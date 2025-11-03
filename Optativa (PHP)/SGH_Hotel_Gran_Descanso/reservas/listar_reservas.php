@@ -1,5 +1,11 @@
 <?php include '../header.php';
-require '../conexion.php'; ?>
+require '../conexion.php'; 
+require_once __DIR__ . '/../includes/verificar_sesion.php';
+
+if ($_SESSION['usuario_rol'] !== 'admin') {
+    echo "<div class='alert alert-danger m-3'>Acceso denegado: solo el administrador puede acceder a esta sección.</div>";
+    exit;
+}?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Listado de Reservas</h2>
