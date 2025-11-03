@@ -3,7 +3,7 @@ require '../conexion.php'; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Listado de Reservas</h2>
-    <a href="form_reserva.php" class="btn btn-success">+ Nueva Reserva</a>
+    <a href="/reservas/form_reserva.php" class="btn btn-success">+ Nueva Reserva</a>
 </div>
 
 <table class="table table-hover">
@@ -38,8 +38,8 @@ require '../conexion.php'; ?>
                 <td>{$fila['precio_total']} €</td>
                 <td>{$fila['estado']}</td>
                 <td>
-                  <a href='editar_reserva.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
-                  <a href='eliminar_reserva.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar reserva?\")'>Eliminar</a>
+                  <a href='/reservas/editar_reserva.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
+                  <a href='/reservas/eliminar_reserva.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar reserva?\")'>Eliminar</a>
                 </td>
               </tr>";
         }

@@ -1,7 +1,7 @@
 <?php include '../header.php';
 require '../conexion.php'; ?>
 <h2>Registrar nueva reserva</h2>
-<form action="insertar_reserva.php" method="POST" class="mt-3">
+<form action="/reservas/insertar_reserva.php" method="POST" class="mt-3">
     <div class="mb-3">
         <label>Huésped:</label>
         <select name="id_huesped" class="form-select" required>
@@ -33,6 +33,6 @@ require '../conexion.php'; ?>
         <input type="date" name="fecha_salida" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="listar_reservas.php" class="btn btn-secondary">Cancelar</a>
+    <a href="/reservas/listar_reservas.php" class="btn btn-secondary">Cancelar</a>
 </form>
 <?php include '../footer.php'; ?>

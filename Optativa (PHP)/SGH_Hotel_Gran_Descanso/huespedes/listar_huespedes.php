@@ -3,7 +3,7 @@ require '../conexion.php'; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Lista de Huéspedes</h2>
-    <a href="form_huesped.php" class="btn btn-success">+ Nuevo Huésped</a>
+    <a href="/huespedes/form_huesped.php" class="btn btn-success">+ Nuevo Huésped</a>
 </div>
 
 <table class="table table-hover">
@@ -26,8 +26,8 @@ require '../conexion.php'; ?>
                 <td>{$fila['email']}</td>
                 <td>{$fila['documento_identidad']}</td>
                 <td>
-                  <a href='editar_huesped.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
-                  <a href='eliminar_huesped.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar este huésped?\")'>Eliminar</a>
+                  <a href='/huespedes/editar_huesped.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
+                  <a href='/huespedes/eliminar_huesped.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar este huésped?\")'>Eliminar</a>
                 </td>
               </tr>";
         }

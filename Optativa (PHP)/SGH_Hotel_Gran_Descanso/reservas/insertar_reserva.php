@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$id_huesped, $id_habitacion, $fecha_llegada, $fecha_salida, $precio_total]);
 
-        header("Location: listar_reservas.php");
+        header("Location: /reservas/listar_reservas.php");
     } catch (PDOException $e) {
         die("Error al insertar reserva: " . $e->getMessage());
     }

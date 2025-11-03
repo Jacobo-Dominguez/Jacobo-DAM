@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$id_huesped, $id_habitacion, $fecha_llegada, $fecha_salida, $precio_total, $estado, $id]);
 
-        header("Location: listar_reservas.php");
+        header("Location: /reservas/listar_reservas.php");
     } catch (PDOException $e) {
         die("Error al actualizar reserva: " . $e->getMessage());
     }
@@ -92,7 +92,7 @@ if (!$reserva) {
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Guardar cambios</button>
-    <a href="listar_reservas.php" class="btn btn-secondary">Cancelar</a>
+    <a href="/reservas/listar_reservas.php" class="btn btn-secondary">Cancelar</a>
 </form>
 
 <?php include '../footer.php'; ?>

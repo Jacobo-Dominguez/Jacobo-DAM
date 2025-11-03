@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $upd = $pdo->prepare("UPDATE huespedes SET nombre = ?, email = ?, documento_identidad = ? WHERE id = ?");
                 $upd->execute([$nombre, $email, $documento, $id]);
-                header("Location: listar_huespedes.php");
+                header("Location: /huespedes/listar_huespedes.php");
                 exit;
             } catch (PDOException $e) {
                 echo "<div class='alert alert-danger'>Error al actualizar: " . htmlspecialchars($e->getMessage()) . "</div>";
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input class="form-control" name="documento_identidad" required value="<?= htmlspecialchars($h['documento_identidad']) ?>">
     </div>
     <button class="btn btn-primary" type="submit">Guardar cambios</button>
-    <a class="btn btn-secondary" href="listar_huespedes.php">Cancelar</a>
+    <a class="btn btn-secondary" href="/huespedes/listar_huespedes.php">Cancelar</a>
 </form>
 
 <?php include '../footer.php'; ?>

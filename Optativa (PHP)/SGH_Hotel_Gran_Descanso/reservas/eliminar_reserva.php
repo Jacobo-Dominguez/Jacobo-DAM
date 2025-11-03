@@ -10,7 +10,7 @@ $id = $_GET['id'];
 try {
     $stmt = $pdo->prepare("DELETE FROM reservas WHERE id = ?");
     $stmt->execute([$id]);
-    header("Location: listar_reservas.php");
+    header("Location: /reservas/listar_reservas.php");
 } catch (PDOException $e) {
     die("Error al eliminar reserva: " . $e->getMessage());
 }

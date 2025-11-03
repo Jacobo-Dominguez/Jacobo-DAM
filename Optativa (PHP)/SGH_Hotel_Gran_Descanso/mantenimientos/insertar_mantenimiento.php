@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare("INSERT INTO mantenimientos (id_habitacion, descripcion, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?)");
         $stmt->execute([$id_habitacion, $descripcion, $inicio, $fin]);
-        header("Location: listar_mantenimientos.php");
+        header("Location: /mantenimientos/listar_mantenimientos.php");
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }

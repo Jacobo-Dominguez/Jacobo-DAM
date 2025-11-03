@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare("INSERT INTO huespedes (nombre, email, documento_identidad) VALUES (?, ?, ?)");
         $stmt->execute([$nombre, $email, $documento]);
-        header("Location: listar_huespedes.php");
+        header("Location: /huespedes/listar_huespedes.php");
     } catch (PDOException $e) {
         die("Error al insertar: " . $e->getMessage());
     }

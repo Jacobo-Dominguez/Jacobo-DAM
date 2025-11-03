@@ -1,7 +1,7 @@
 <?php include '../header.php';
 require '../conexion.php'; ?>
 <h2>Registrar tarea de mantenimiento</h2>
-<form action="insertar_mantenimiento.php" method="POST" class="mt-3">
+<form action="/mantenimientos/insertar_mantenimiento.php" method="POST" class="mt-3">
     <div class="mb-3">
         <label>Habitación:</label>
         <select name="id_habitacion" class="form-select" required>
@@ -26,6 +26,6 @@ require '../conexion.php'; ?>
         <input type="date" name="fecha_fin" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="listar_mantenimientos.php" class="btn btn-secondary">Cancelar</a>
+    <a href="/mantenimientos/listar_mantenimientos.php" class="btn btn-secondary">Cancelar</a>
 </form>
 <?php include '../footer.php'; ?>

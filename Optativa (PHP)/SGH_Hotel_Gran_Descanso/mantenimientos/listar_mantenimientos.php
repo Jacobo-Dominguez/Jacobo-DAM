@@ -3,7 +3,7 @@ require '../conexion.php'; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Tareas de Mantenimiento</h2>
-    <a href="form_mantenimiento.php" class="btn btn-success">+ Nuevo Mantenimiento</a>
+    <a href="/mantenimientos/form_mantenimiento.php" class="btn btn-success">+ Nuevo Mantenimiento</a>
 </div>
 
 <table class="table table-hover">
@@ -28,8 +28,8 @@ require '../conexion.php'; ?>
                 <td>{$fila['fecha_inicio']}</td>
                 <td>{$fila['fecha_fin']}</td>
                 <td>
-                  <a href='editar_mantenimiento.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
-                  <a href='eliminar_mantenimiento.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar tarea?\")'>Eliminar</a>
+                  <a href='/mantenimientos/editar_mantenimiento.php?id={$fila['id']}' class='btn btn-edit btn-sm'>Editar</a>
+                  <a href='/mantenimientos/eliminar_mantenimiento.php?id={$fila['id']}' class='btn btn-delete btn-sm' onclick='return confirm(\"¿Eliminar tarea?\")'>Eliminar</a>
                 </td>
               </tr>";
         }

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $upd = $pdo->prepare("UPDATE habitaciones SET numero = ?, tipo = ?, precio_base = ?, estado_limpieza = ? WHERE id = ?");
                 $upd->execute([$numero, $tipo, $precio_base, $estado_limpieza, $id]);
-                header("Location: listar_habitaciones.php");
+                header("Location: /habitaciones/listar_habitaciones.php");
                 exit;
             } catch (PDOException $e) {
                 echo "<div class='alert alert-danger'>Error al actualizar: " . htmlspecialchars($e->getMessage()) . "</div>";
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <button class="btn btn-primary" type="submit">Guardar cambios</button>
-    <a class="btn btn-secondary" href="listar_habitaciones.php">Cancelar</a>
+    <a class="btn btn-secondary" href="/habitaciones/listar_habitaciones.php">Cancelar</a>
 </form>
 
 <?php include '../footer.php'; ?>
