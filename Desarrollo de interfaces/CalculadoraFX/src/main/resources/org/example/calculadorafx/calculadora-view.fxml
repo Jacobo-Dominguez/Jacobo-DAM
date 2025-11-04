@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.lang.String?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.calculadorafx.CalculadoraController">
+
+    <top>
+        <TextField fx:id="pantalla" editable="false" styleClass="text-field" />
+    </top>
+
+    <center>
+        <GridPane hgap="10" vgap="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <!-- Fila 1 -->
+            <Button text="7" onAction="#manejarNumero" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Button text="8" onAction="#manejarNumero" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Button text="9" onAction="#manejarNumero" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <Button text="/" onAction="#manejarOperacion" GridPane.rowIndex="0" GridPane.columnIndex="3">
+                <styleClass>
+                    <String fx:value="operacion"/>
+                </styleClass>
+            </Button>
+
+            <!-- Fila 2 -->
+            <Button text="4" onAction="#manejarNumero" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Button text="5" onAction="#manejarNumero" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Button text="6" onAction="#manejarNumero" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <Button text="*" onAction="#manejarOperacion" GridPane.rowIndex="1" GridPane.columnIndex="3">
+                <styleClass>
+                    <String fx:value="operacion"/>
+                </styleClass>
+            </Button>
+
+            <!-- Fila 3 -->
+            <Button text="1" onAction="#manejarNumero" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Button text="2" onAction="#manejarNumero" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Button text="3" onAction="#manejarNumero" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <Button text="-" onAction="#manejarOperacion" GridPane.rowIndex="2" GridPane.columnIndex="3">
+                <styleClass>
+                    <String fx:value="operacion"/>
+                </styleClass>
+            </Button>
+
+            <!-- Fila 4 -->
+            <Button text="0" onAction="#manejarNumero" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Button text="C" onAction="#manejarLimpiar" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <styleClass>
+                    <String fx:value="limpiar"/>
+                </styleClass>
+            </Button>
+            <Button text="=" onAction="#manejarIgual" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <styleClass>
+                    <String fx:value="igual"/>
+                </styleClass>
+            </Button>
+            <Button text="+" onAction="#manejarOperacion" GridPane.rowIndex="3" GridPane.columnIndex="3">
+                <styleClass>
+                    <String fx:value="operacion"/>
+                </styleClass>
+            </Button>
+        </GridPane>
+    </center>
+</BorderPane>
