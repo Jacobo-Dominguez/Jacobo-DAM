@@ -6,7 +6,7 @@
 
 <?import java.lang.String?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.calculadorafx.CalculadoraController">
+            fx:controller="org.example.calculadorafx.CalculadoraController" stylesheets="@calculadora.css">
 
     <top>
         <TextField fx:id="pantalla" editable="false" styleClass="text-field" />
