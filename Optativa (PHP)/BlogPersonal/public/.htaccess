@@ -1,0 +1,14 @@
+# Activar el motor de reescritura
+RewriteEngine On
+
+# Ajustar la base si tu proyecto no está en la raíz
+# Ejemplo: si está en localhost/blog-mvc, usa:
+# RewriteBase /blog-mvc/
+RewriteBase /
+
+# Si el archivo o directorio solicitado existe, servirlo directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Si no existe, redirigir todo al index.php
+RewriteRule ^ index.php [QSA,L]
