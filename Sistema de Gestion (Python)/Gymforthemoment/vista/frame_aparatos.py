@@ -40,6 +40,7 @@ class FrameAparatos(ttk.Frame):
     def _cargar_aparatos(self):
         for fila in self.tabla.get_children():
             self.tabla.delete(fila)
+
         for a in self.ctrl.listar():
             self.tabla.insert("", "end", values=(a.id, a.nombre, a.tipo, a.estado))
 
@@ -47,6 +48,7 @@ class FrameAparatos(ttk.Frame):
         filtro = self.var_buscar.get()
         for fila in self.tabla.get_children():
             self.tabla.delete(fila)
+
         for a in self.ctrl.listar(filtro):
             self.tabla.insert("", "end", values=(a.id, a.nombre, a.tipo, a.estado))
 
@@ -71,7 +73,7 @@ class FrameAparatos(ttk.Frame):
         id_aparato = self._get_aparato_seleccionado()
         if not id_aparato:
             return
-        aparato = self.ctrl.modelo.obtener_por_id(id_aparato)
+        aparato = self.ctrl.obtener_por_id(id_aparato)
         FormularioAparato(self, "Editar Aparato", lambda datos: self._guardar_edicion_aparato(id_aparato, datos), aparato)
 
     def _guardar_nuevo_aparato(self, datos):

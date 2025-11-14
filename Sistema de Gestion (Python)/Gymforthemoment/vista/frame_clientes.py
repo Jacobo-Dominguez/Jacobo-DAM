@@ -9,6 +9,8 @@ class FrameClientes(ttk.Frame):
         self.ctrl = ControladorClientes()
         self.volver_callback = volver_callback
 
+        self.formulario_activo = None
+
         self._crear_widgets()
         self._cargar_clientes()
 
@@ -67,14 +69,20 @@ class FrameClientes(ttk.Frame):
             self._cargar_clientes()
 
     def _abrir_formulario_agregar(self):
-        FormularioCliente(self, "Agregar Cliente", self._guardar_nuevo_cliente)
+        if self.formulario_activo:
+            self.formulario_activo.pack_forget()
+        self.formulario_activo = FormularioCliente(self, self._guardar_nuevo_cliente)
+        self.formulario_activo.pack(padx=10, pady=10, fill="x")
 
     def _abrir_formulario_editar(self):
         id_cliente = self._get_cliente_seleccionado()
         if not id_cliente:
             return
-        cliente = self.ctrl.modelo.obtener_por_id(id_cliente)
-        FormularioCliente(self, "Editar Cliente", lambda datos: self._guardar_edicion_cliente(id_cliente, datos), cliente)
+        cliente = self.ctrl.obtener_por_id(id_cliente)
+        if self.formulario_activo:
+            self.formulario_activo.pack_forget()
+        self.formulario_activo = FormularioCliente(self, lambda datos: self._guardar_edicion_cliente(id_cliente, datos), cliente)
+        self.formulario_activo.pack(padx=10, pady=10, fill="x")
 
     def _guardar_nuevo_cliente(self, datos):
         self.ctrl.agregar(datos)

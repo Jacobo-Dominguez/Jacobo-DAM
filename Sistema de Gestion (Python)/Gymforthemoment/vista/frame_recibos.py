@@ -4,13 +4,13 @@ from controlador.controlador_recibos import ControladorRecibos
 from controlador.controlador_clientes import ControladorClientes
 from vista.formulario_recibo import FormularioRecibo
 
-
 class FrameRecibos(ttk.Frame):
     def __init__(self, master, volver_callback):
         super().__init__(master)
         self.ctrl = ControladorRecibos()
         self.ctrl_clientes = ControladorClientes()
         self.volver_callback = volver_callback
+        self.formulario_activo = None
 
         self._crear_widgets()
         self._cargar_recibos()
@@ -21,15 +21,16 @@ class FrameRecibos(ttk.Frame):
         top_frame = ttk.Frame(self)
         top_frame.pack(fill="x", padx=10)
 
-        ttk.Label(top_frame, text="Filtrar mes/año:").pack(side="left", padx=5)
+        ttk.Label(top_frame, text="Buscar:").pack(side="left", padx=5)
         self.var_buscar = tk.StringVar()
         ttk.Entry(top_frame, textvariable=self.var_buscar).pack(side="left", padx=5)
         ttk.Button(top_frame, text="Filtrar", command=self._filtrar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Generar", command=self._abrir_formulario_generar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Marcar Pagado", command=self._marcar_pagado).pack(side="left", padx=5)
+        ttk.Button(top_frame, text="Agregar", command=self._abrir_formulario_agregar).pack(side="left", padx=5)
+        ttk.Button(top_frame, text="Editar", command=self._abrir_formulario_editar).pack(side="left", padx=5)
         ttk.Button(top_frame, text="Eliminar", command=self._eliminar_recibo).pack(side="left", padx=5)
         ttk.Button(top_frame, text="Volver al menú", command=self.volver_callback).pack(side="right", padx=5)
 
+        # Tabla de recibos con cliente, mes, año y pagado
         self.tabla = ttk.Treeview(self, columns=("id", "cliente", "mes", "anio", "pagado"), show="headings")
         for col in self.tabla["columns"]:
             self.tabla.heading(col, text=col.capitalize())
@@ -44,18 +45,18 @@ class FrameRecibos(ttk.Frame):
         for fila in self.tabla.get_children():
             self.tabla.delete(fila)
         for r in self.ctrl.listar():
-            cliente = self.ctrl_clientes.modelo.obtener_por_id(r.id_cliente)
-            self.tabla.insert("", "end", values=(r.id, cliente.nombre if cliente else "", r.mes, r.anio,
-                                                 "Sí" if r.pagado else "No"))
+            cliente = self.ctrl_clientes.obtener_por_id(r.id_cliente)
+            nombre_cliente = f"{cliente.nombre} {cliente.apellido}" if cliente else "Desconocido"
+            self.tabla.insert("", "end", values=(r.id, nombre_cliente, r.mes, r.anio, "Sí" if r.pagado else "No"))
 
     def _filtrar(self):
         filtro = self.var_buscar.get()
         for fila in self.tabla.get_children():
             self.tabla.delete(fila)
         for r in self.ctrl.listar(filtro):
-            cliente = self.ctrl_clientes.modelo.obtener_por_id(r.id_cliente)
-            self.tabla.insert("", "end", values=(r.id, cliente.nombre if cliente else "", r.mes, r.anio,
-                                                 "Sí" if r.pagado else "No"))
+            cliente = self.ctrl_clientes.obtener_por_id(r.id_cliente)
+            nombre_cliente = f"{cliente.nombre} {cliente.apellido}" if cliente else "Desconocido"
+            self.tabla.insert("", "end", values=(r.id, nombre_cliente, r.mes, r.anio, "Sí" if r.pagado else "No"))
 
     def _get_recibo_seleccionado(self):
         seleccionado = self.tabla.focus()
@@ -71,18 +72,26 @@ class FrameRecibos(ttk.Frame):
             self.ctrl.eliminar(id_recibo)
             self._cargar_recibos()
 
-    def _marcar_pagado(self):
+    def _abrir_formulario_agregar(self):
+        if self.formulario_activo:
+            self.formulario_activo.pack_forget()
+        self.formulario_activo = FormularioRecibo(self, self._guardar_nuevo_recibo)
+        self.formulario_activo.pack(padx=10, pady=10, fill="x")
+
+    def _abrir_formulario_editar(self):
         id_recibo = self._get_recibo_seleccionado()
-        if id_recibo:
-            self.ctrl.marcar_pagado(id_recibo, True)
-            self._cargar_recibos()
+        if not id_recibo:
+            return
+        recibo = self.ctrl.obtener_por_id(id_recibo)
+        if self.formulario_activo:
+            self.formulario_activo.pack_forget()
+        self.formulario_activo = FormularioRecibo(self, lambda datos: self._guardar_edicion_recibo(id_recibo, datos), recibo)
+        self.formulario_activo.pack(padx=10, pady=10, fill="x")
 
-    def _abrir_formulario_generar(self):
-        FormularioRecibo(self, "Generar Recibo", self._generar_recibo, self.ctrl_clientes.listar())
+    def _guardar_nuevo_recibo(self, datos):
+        self.ctrl.agregar(datos)
+        self._cargar_recibos()
 
-    def _generar_recibo(self, datos):
-        try:
-            self.ctrl.generar(datos)
-            self._cargar_recibos()
-        except Exception as e:
-            messagebox.showerror("Error", str(e))
+    def _guardar_edicion_recibo(self, id_recibo, datos):
+        self.ctrl.editar(id_recibo, datos)
+        self._cargar_recibos()
