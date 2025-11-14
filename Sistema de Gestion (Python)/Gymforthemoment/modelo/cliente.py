@@ -1,12 +1,11 @@
 class Cliente:
-    def __init__(self, id_cliente=None, nombre="", apellidos="", dni="", telefono="", email="", ha_pagado=False):
-        self.id_cliente = id_cliente
+    def __init__(self, id=None, nombre="", apellido="", email="", telefono="", moroso=False):
+        self.id = id
         self.nombre = nombre
-        self.apellidos = apellidos
-        self.dni = dni
-        self.telefono = telefono
+        self.apellido = apellido
         self.email = email
-        self.ha_pagado = ha_pagado
+        self.telefono = telefono
+        self.moroso = moroso
 
-    def __str__(self):
-        return f"{self.nombre} {self.apellidos} ({'Pagado' if self.ha_pagado else 'Moroso'})"
+    def __repr__(self):
+        return f"Cliente({self.id}, {self.nombre}, {self.apellido}, moroso={self.moroso})"
