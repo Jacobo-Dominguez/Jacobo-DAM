@@ -3,8 +3,10 @@ class Reserva:
         self.id = id
         self.id_cliente = id_cliente
         self.id_aparato = id_aparato
-        self.fecha = fecha  # Formato: 'YYYY-MM-DD'
-        self.hora = hora    # Formato: 'HH:MM'
+        self.fecha = fecha
+        self.hora = hora
 
     def __repr__(self):
-        return f"Reserva({self.id}, Cliente={self.id_cliente}, Aparato={self.id_aparato}, {self.fecha} {self.hora})"
+        return f"Reserva({self.id}, cliente={self.id_cliente}, aparato={self.id_aparato}, {self.fecha} {self.hora})"
+
+
