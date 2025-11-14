@@ -1,34 +1,48 @@
-from modelo.modelo_reservas import ModeloReservas
 from modelo.reserva import Reserva
-from datetime import datetime
+from modelo.base_datos import BaseDatos
 
 class ControladorReservas:
     def __init__(self):
-        self.modelo = ModeloReservas()
+        self.db = BaseDatos()
+        self._crear_tabla()
+
+    def _crear_tabla(self):
+        query = """
+        CREATE TABLE IF NOT EXISTS reservas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER NOT NULL,
+            id_aparato INTEGER NOT NULL,
+            fecha TEXT NOT NULL,
+            hora TEXT NOT NULL
+        )
+        """
+        self.db.ejecutar(query)
 
     def agregar(self, datos):
-        # Validar que la fecha no sea anterior a hoy
-        fecha_reserva = datetime.strptime(datos["fecha"], "%Y-%m-%d").date()
-        if fecha_reserva < datetime.today().date():
-            raise ValueError("No se puede crear una reserva para una fecha anterior a hoy.")
-
         reserva = Reserva(**datos)
-        self.modelo.insertar(reserva)
+        query = "INSERT INTO reservas (id_cliente, id_aparato, fecha, hora) VALUES (?, ?, ?, ?)"
+        self.db.ejecutar(query, (reserva.id_cliente, reserva.id_aparato, reserva.fecha, reserva.hora))
 
     def editar(self, id_reserva, datos):
-        # Validar fecha antes de actualizar
-        if "fecha" in datos:
-            fecha_reserva = datetime.strptime(datos["fecha"], "%Y-%m-%d").date()
-            if fecha_reserva < datetime.today().date():
-                raise ValueError("No se puede modificar la reserva a una fecha anterior a hoy.")
-        reserva = self.modelo.obtener_por_id(id_reserva)
+        reserva = self.obtener_por_id(id_reserva)
         if reserva:
             for k, v in datos.items():
                 setattr(reserva, k, v)
-            self.modelo.actualizar(reserva)
+            query = "UPDATE reservas SET id_cliente=?, id_aparato=?, fecha=?, hora=? WHERE id=?"
+            self.db.ejecutar(query, (reserva.id_cliente, reserva.id_aparato, reserva.fecha, reserva.hora, reserva.id))
 
     def eliminar(self, id_reserva):
-        self.modelo.eliminar(id_reserva)
+        self.db.ejecutar("DELETE FROM reservas WHERE id=?", (id_reserva,))
 
     def listar(self, filtro=""):
-        return self.modelo.obtener_todos(filtro)
+        query = "SELECT * FROM reservas"
+        params = ()
+        if filtro:
+            query += " WHERE fecha LIKE ? OR hora LIKE ?"
+            params = (f"%{filtro}%", f"%{filtro}%")
+        filas = self.db.consultar(query, params)
+        return [Reserva(**f) for f in filas]
+
+    def obtener_por_id(self, id_reserva):
+        fila = self.db.consultar_uno("SELECT * FROM reservas WHERE id=?", (id_reserva,))
+        return Reserva(**fila) if fila else None
