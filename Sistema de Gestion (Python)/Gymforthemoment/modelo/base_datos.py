@@ -1,51 +1,59 @@
 import sqlite3
+import os
 
-class ConexionBD:
-    def __init__(self, nombre_bd="gymforthemoment.db"):
-        self.nombre_bd = nombre_bd
-        self.crear_tablas()
+class BaseDatos:
+    def __init__(self, nombre_db="gym.db"):
+        self.nombre_db = nombre_db
+        # Crear la base de datos si no existe
+        if not os.path.exists(self.nombre_db):
+            self._crear_db()
 
-    def conectar(self):
-        return sqlite3.connect(self.nombre_bd)
+    def _crear_db(self):
+        conn = sqlite3.connect(self.nombre_db)
+        conn.close()
 
-    def crear_tablas(self):
-        con = self.conectar()
-        cur = con.cursor()
-        cur.execute('''CREATE TABLE IF NOT EXISTS clientes (
-                        id_cliente INTEGER PRIMARY KEY AUTOINCREMENT,
-                        nombre TEXT NOT NULL,
-                        apellidos TEXT,
-                        dni TEXT UNIQUE,
-                        telefono TEXT,
-                        email TEXT,
-                        ha_pagado INTEGER DEFAULT 0
-                      )''')
+    def ejecutar(self, query, params=()):
+        """
+        Ejecuta INSERT, UPDATE, DELETE u otras sentencias SQL.
+        """
+        conn = sqlite3.connect(self.nombre_db)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query, params)
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            raise e
+        finally:
+            conn.close()
 
-        cur.execute('''CREATE TABLE IF NOT EXISTS aparatos (
-                        id_aparato INTEGER PRIMARY KEY AUTOINCREMENT,
-                        nombre TEXT,
-                        tipo TEXT,
-                        estado TEXT
-                      )''')
+    def consultar(self, query, params=()):
+        """
+        Ejecuta un SELECT que puede devolver varias filas.
+        Devuelve lista de diccionarios.
+        """
+        conn = sqlite3.connect(self.nombre_db)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query, params)
+            filas = cursor.fetchall()
+            return [dict(f) for f in filas]
+        finally:
+            conn.close()
 
-        cur.execute('''CREATE TABLE IF NOT EXISTS reservas (
-                        id_reserva INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_cliente INTEGER,
-                        id_aparato INTEGER,
-                        fecha TEXT,
-                        hora_inicio TEXT,
-                        hora_fin TEXT,
-                        FOREIGN KEY(id_cliente) REFERENCES clientes(id_cliente),
-                        FOREIGN KEY(id_aparato) REFERENCES aparatos(id_aparato)
-                      )''')
-
-        cur.execute('''CREATE TABLE IF NOT EXISTS recibos (
-                        id_recibo INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_cliente INTEGER,
-                        mes INTEGER,
-                        anio INTEGER,
-                        pagado INTEGER DEFAULT 0,
-                        FOREIGN KEY(id_cliente) REFERENCES clientes(id_cliente)
-                      )''')
-        con.commit()
-        con.close()
+    def consultar_uno(self, query, params=()):
+        """
+        Ejecuta un SELECT que devuelve solo una fila.
+        Devuelve diccionario o None.
+        """
+        conn = sqlite3.connect(self.nombre_db)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query, params)
+            fila = cursor.fetchone()
+            return dict(fila) if fila else None
+        finally:
+            conn.close()
