@@ -1,9 +1,9 @@
 class Aparato:
-    def __init__(self, id_aparato=None, nombre="", tipo="", estado="Disponible"):
-        self.id_aparato = id_aparato
+    def __init__(self, id=None, nombre="", tipo="", estado="Disponible"):
+        self.id = id
         self.nombre = nombre
         self.tipo = tipo
         self.estado = estado
 
-    def __str__(self):
-        return f"{self.nombre} - {self.tipo} ({self.estado})"
+    def __repr__(self):
+        return f"Aparato({self.id}, {self.nombre}, tipo={self.tipo}, estado={self.estado})"
