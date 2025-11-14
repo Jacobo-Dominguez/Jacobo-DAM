@@ -3,8 +3,8 @@ from modelo.base_datos import BaseDatos
 
 class ControladorReservas:
     def __init__(self):
-        self.db = BaseDatos()
-        self._crear_tabla()
+        self.db = BaseDatos() # Maneja la conexión y consultas a la base de datos
+        self._crear_tabla() # Se asegura de que la tabla exista. Si no existe, la crea.
 
     def _crear_tabla(self):
         query = """
@@ -19,14 +19,14 @@ class ControladorReservas:
         self.db.ejecutar(query)
 
     def agregar(self, datos):
-        reserva = Reserva(**datos)
+        reserva = Reserva(**datos) # Coge los datos de la clase reserva.py y los pasa como argumentos con nombre
         query = "INSERT INTO reservas (id_cliente, id_aparato, fecha, hora) VALUES (?, ?, ?, ?)"
         self.db.ejecutar(query, (reserva.id_cliente, reserva.id_aparato, reserva.fecha, reserva.hora))
 
     def editar(self, id_reserva, datos):
         reserva = self.obtener_por_id(id_reserva)
         if reserva:
-            for k, v in datos.items():
+            for k, v in datos.items(): # Aplica los cambios recibidos en el diccionario de datos
                 setattr(reserva, k, v)
             query = "UPDATE reservas SET id_cliente=?, id_aparato=?, fecha=?, hora=? WHERE id=?"
             self.db.ejecutar(query, (reserva.id_cliente, reserva.id_aparato, reserva.fecha, reserva.hora, reserva.id))

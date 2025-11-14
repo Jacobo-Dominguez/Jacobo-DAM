@@ -10,11 +10,3 @@ class Recibo:
     def __repr__(self):
         return f"Recibo({self.id}, Cliente={self.id_cliente}, Mes={self.mes}, Anio={self.anio}, Pagado={self.pagado})"
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "id_cliente": self.id_cliente,
-            "mes": self.mes,
-            "anio": self.anio,
-            "pagado": self.pagado
-        }

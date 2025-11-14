@@ -3,8 +3,8 @@ from modelo.base_datos import BaseDatos
 
 class ControladorRecibos:
     def __init__(self):
-        self.db = BaseDatos()
-        self._crear_tabla()
+        self.db = BaseDatos() # Maneja la conexión y consultas a la base de datos
+        self._crear_tabla() # Se asegura de que la tabla exista. Si no existe, la crea.
 
     def _crear_tabla(self):
         query = """
@@ -20,7 +20,7 @@ class ControladorRecibos:
         self.db.ejecutar(query)
 
     def agregar(self, datos):
-        recibo = Recibo(**datos)
+        recibo = Recibo(**datos) # Coge los datos de la clase recibo.py y los pasa como argumentos con nombre
         query = "INSERT INTO recibos (id_cliente, mes, anio, pagado) VALUES (?, ?, ?, ?)"
         self.db.ejecutar(query, (recibo.id_cliente, recibo.mes, recibo.anio, int(recibo.pagado)))
 
@@ -28,7 +28,7 @@ class ControladorRecibos:
         recibo = self.obtener_por_id(id_recibo)
         if not recibo:
             return
-        for k, v in datos.items():
+        for k, v in datos.items(): # Aplica los cambios recibidos en el diccionario de datos
             setattr(recibo, k, v)
         query = "UPDATE recibos SET id_cliente=?, mes=?, pagado=? WHERE id=?"
         self.db.ejecutar(query, (recibo.id_cliente, recibo.mes, int(recibo.pagado), id_recibo))

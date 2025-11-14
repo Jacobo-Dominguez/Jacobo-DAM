@@ -3,8 +3,8 @@ from modelo.base_datos import BaseDatos
 
 class ControladorAparatos:
     def __init__(self):
-        self.db = BaseDatos()
-        self._crear_tabla()
+        self.db = BaseDatos() # Maneja la conexión y consultas a la base de datos
+        self._crear_tabla() # Se asegura de que la tabla exista. Si no existe, la crea.
 
     def _crear_tabla(self):
         query = """
@@ -18,14 +18,14 @@ class ControladorAparatos:
         self.db.ejecutar(query)
 
     def agregar(self, datos):
-        aparato = Aparato(**datos)
+        aparato = Aparato(**datos) # Coge los datos de la clase aparato.py y los pasa como argumentos con nombre
         query = "INSERT INTO aparatos (nombre, tipo, estado) VALUES (?, ?, ?)"
         self.db.ejecutar(query, (aparato.nombre, aparato.tipo, aparato.estado))
 
     def editar(self, id_aparato, datos):
         aparato = self.obtener_por_id(id_aparato)
         if aparato:
-            for k, v in datos.items():
+            for k, v in datos.items(): # Aplica los cambios recibidos en el diccionario de datos
                 setattr(aparato, k, v)
             query = "UPDATE aparatos SET nombre=?, tipo=?, estado=? WHERE id=?"
             self.db.ejecutar(query, (aparato.nombre, aparato.tipo, aparato.estado, aparato.id))

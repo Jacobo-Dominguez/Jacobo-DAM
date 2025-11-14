@@ -3,8 +3,8 @@ from modelo.base_datos import BaseDatos
 
 class ControladorClientes:
     def __init__(self):
-        self.db = BaseDatos()
-        self._crear_tabla()
+        self.db = BaseDatos() # Maneja la conexión y consultas a la base de datos
+        self._crear_tabla() # Se asegura de que la tabla exista. Si no existe, la crea.
 
     def _crear_tabla(self):
         query = """
@@ -19,9 +19,8 @@ class ControladorClientes:
         """
         self.db.ejecutar(query)
 
-    # --- CRUD ---
     def agregar(self, datos):
-        cliente = Cliente(**datos)
+        cliente = Cliente(**datos) # Coge los datos de la clase cliente.py y los pasa como argumentos con nombre
         query = """
         INSERT INTO clientes (nombre, apellido, email, telefono, moroso)
         VALUES (?, ?, ?, ?, ?)
@@ -32,7 +31,7 @@ class ControladorClientes:
         cliente = self.obtener_por_id(id_cliente)
         if not cliente:
             return
-        for k, v in datos.items():
+        for k, v in datos.items():  # Aplica los cambios recibidos en el diccionario de datos
             setattr(cliente, k, v)
         query = """
         UPDATE clientes
@@ -57,7 +56,6 @@ class ControladorClientes:
         fila = self.db.consultar_uno("SELECT * FROM clientes WHERE id=?", (id_cliente,))
         return Cliente(**fila) if fila else None
 
-    # --- Lógica adicional ---
     def marcar_moroso(self, id_cliente, estado=True):
         cliente = self.obtener_por_id(id_cliente)
         if cliente:
