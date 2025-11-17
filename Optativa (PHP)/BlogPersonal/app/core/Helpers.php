@@ -1,6 +1,7 @@
 <?php
 namespace app\core;
 
+// Clase para funciones auxiliares
 class Helpers
 {   
     // Redirige a una ruta específica
