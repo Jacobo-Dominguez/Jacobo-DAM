@@ -89,7 +89,7 @@ public class Main {
             case 2 -> TipoAlimento.HERBIVORO;
             case 3 -> TipoAlimento.OMNIVORO;
             default -> {
-                System.out.println("Opción no válida, se pone OMNIVORO por defecto.");
+                System.out.println("Opción no válida (OMNIVORO por defecto).");
                 yield TipoAlimento.OMNIVORO;
             }
         };
@@ -111,7 +111,7 @@ public class Main {
             case 4 -> TipoAnimal.AVE;
             case 5 -> TipoAnimal.ANFIBIO;
             default -> {
-                System.out.println("Opción no válida, se pone MAMIFERO por defecto.");
+                System.out.println("Opción no válida, (MAMIFERO por defecto).");
                 yield TipoAnimal.MAMIFERO;
             }
         };
@@ -130,7 +130,7 @@ public class Main {
         // Guardamos el animal en la BD
         animalDAO.create(animal);
 
-        System.out.println("✔ Animal registrado correctamente.");
+        System.out.println("Animal registrado correctamente.");
     }
 
     private static void buscarPorEspecie(Scanner sc, AnimalDAO animalDAO) {

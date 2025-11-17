@@ -18,7 +18,7 @@ public class Animal {
     @Column(length = 500)
     private String descripcionPerdida;
 
-    private String estado; // recién abandonado, tiempo en refugio, próximamente en acogida
+    private String estado;
 
     @Enumerated(EnumType.STRING)
     private TipoAlimento tipoAlimento;
@@ -47,7 +47,7 @@ public class Animal {
         this.tipoAlimento = tipoAlimento;
     }
 
-    // ===== GETTERS/SETTERS =====
+    // GETTERS y SETTERS
 
     public Integer getId() {
         return id;

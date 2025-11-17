@@ -13,9 +13,9 @@ public class Clasificacion {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    private TipoAnimal tipoAnimal; // MAMIFERO, REPTIL, PEZ, AVE, ANFIBIO
+    private TipoAnimal tipoAnimal;
 
-    private String nombre; // opcional, puedes usarlo igual que el enum
+    private String nombre;
 
     @ManyToMany(mappedBy = "clasificaciones")
     private Set<Animal> animales = new HashSet<>();
@@ -27,7 +27,7 @@ public class Clasificacion {
         this.nombre = nombre;
     }
 
-    // GETTERS/SETTERS
+    // GETTERS y SETTERS
 
     public Integer getId() { return id; }
 

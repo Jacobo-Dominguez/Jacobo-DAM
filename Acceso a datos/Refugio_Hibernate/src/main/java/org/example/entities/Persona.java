@@ -31,7 +31,7 @@ public class Persona {
         this.email = email;
     }
 
-    // GETTERS/SETTERS
+    // GETTERS y SETTERS
 
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
