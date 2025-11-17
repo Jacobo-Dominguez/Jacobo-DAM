@@ -1,0 +1,310 @@
+/* Estilo básico moderno azul/neón */
+
+/*
+  Variables globales: colores y tokens que controlan la paleta
+  - Cambia aquí los colores para actualizar el look completo
+*/
+:root {
+  --bg: #0e1116; /* color de fondo principal (no usado directamente, pero útil) */
+  --card: linear-gradient(180deg, #0077ff, transparent); /* fondo de tarjetas / contenedores */
+  --accent: #00c0ff; /* color acento / neon */
+  --text: #e6eef6; /* color principal de texto */
+  --muted: #9aa8b8; /* color para metadatos y texto secundario */
+}
+
+/*
+  Reset / tipografía global
+  - Si quieres cambiar la fuente, edítala aquí
+*/
+* {
+  box-sizing: border-box;
+  font-family: Inter, Segoe UI, Arial, Helvetica, sans-serif;
+}
+
+/*
+  Estilos del body / layout base
+  - Fondo en gradiente, color del texto
+*/
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #071022 0%, #0b1320 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/*
+  Contenedor principal usado por header, main y footer
+  - Cambia `max-width` y `padding` para ajustar el ancho global
+*/
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/*
+  HEADER (barra superior) - `views/layout/header.php`
+  - `.site-header`: fondo semitransparente y borde inferior
+  - `.site-header .container`: layout horizontal entre marca y navegación
+  - `.brand`: el texto del nombre del sitio
+  - `.nav .btn`: botones de la navegación (login, logout, crear)
+  - `.who`: texto que muestra el usuario conectado
+*/
+.site-header {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(0, 192, 255, 0.06);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.nav .btn {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #001;
+  background: linear-gradient(90deg, var(--accent), #0077ff);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.who {
+  margin-right: 8px;
+  color: var(--muted);
+}
+
+/*
+  CARTAS / BLOQUES (`.card`)
+  - Se usan en formularios (login/register), detalles de post, edición, etc.
+*/
+.card {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 10px;
+  margin: 18px 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/*
+  Formularios: inputs y textareas usados en login/register y creación/edición de posts
+  - Cambia el padding, border-radius o border para ajustar el look de los formularios
+*/
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: var(--text);
+}
+
+/*
+  Botones principales (acción primaria)
+  - `.primary` se usa en formularios para acciones como Publicar, Crear cuenta
+*/
+button.primary {
+  background: linear-gradient(90deg, var(--accent), #0077ff);
+  border: none;
+  color: #001;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Mensajes de error (login/register) */
+.error {
+  background: #3a0f0f;
+  color: #ffbaba;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/*
+  GRID de posts en la página principal (`views/post/home.php`)
+  - `.posts-grid` controla la rejilla responsiva
+  - `.post-card` cada tarjeta individual de post
+*/
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.post-card {
+  background: linear-gradient(180deg, #0077ff, transparent);
+  padding: 14px;
+  border-radius: 10px;
+}
+
+/* Imagen de la tarjeta de post (miniatura) */
+.post-card img {
+  width: 100%;
+  height: 150px; /* cambiar para ajustar la altura de las miniaturas */
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Metadatos pequeños (autor, fecha) dentro de la tarjeta */
+.post-card .meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Contenedor de botones de acción (Ver, Editar, Eliminar) */
+.actions {
+  margin-top: 8px;
+}
+
+.actions .btn {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #001;
+  background: linear-gradient(90deg, var(--accent), #0077ff);
+  border: none;
+}
+
+/* Botón de acción peligrosa (Eliminar) */
+.btn.danger {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #001;
+  background: linear-gradient(90deg, #ff4d6d, #d60030);
+  border: none;
+  cursor: pointer;
+}
+
+/* Botón Volver en show.php */
+p > .btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #001;
+  background: linear-gradient(90deg, var(--accent), #0077ff);
+  border: none;
+}
+
+/* Imagen en la vista detalle del post (`views/post/show.php`) */
+.full-image {
+  max-width: 30%;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+/*
+  Animaciones / micro-interactions
+  - Efecto hover en `.post-card` para levantar la tarjeta
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .post-card {
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* pequeño footer (`views/layout/footer.php`) */
+.site-footer {
+  padding: 18px;
+  text-align: center;
+  color: var(--muted);
+}
+
+
+/* ===== Tema claro ===== */
+body.light {
+  background: linear-gradient(180deg, #e0f0ff, #d0e8ff);
+  color: #001;
+}
+
+body.light :root {
+  --text: #001;
+  --muted: #555;
+}
+
+body.light .site-header {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 128, 255, 0.2);
+}
+
+body.light .card,
+body.light .post-card {
+  background: linear-gradient(180deg, #ffffff, #f0f8ff);
+  color: #001;
+  box-shadow: 0 4px 12px rgba(0, 128, 255, 0.1);
+}
+
+body.light .brand {
+  color: #0077ff;
+}
+
+body.light .nav .btn,
+body.light .actions .btn,
+body.light p > .btn,
+body.light button.primary {
+  color: #001;
+  background: linear-gradient(90deg, #00c0ff, #0077ff);
+}
+
+body.light .btn.danger {
+  color: #fff;
+  background: linear-gradient(90deg, #ff4d6d, #d60030);
+}
+
+body.light input,
+body.light textarea {
+  background: #f9fbfd;
+  color: #001;
+  border: 1px solid #a0c4e8;
+}
+
+body.light .post-card .meta,
+body.light .muted,
+body.light .who {
+  color: #555;
+}
+
+body.light .error {
+  background: #ffe6e6;
+  color: #d00;
+}
+
+body.light .full-image {
+  border: 1px solid #cce6ff;
+}
+
+body.light .site-footer {
+  color: #444;
+}
+
+/* Asegurar que el texto dentro de cards sea legible */
+body.light .card h2,
+body.light .card h3,
+body.light .post-card h3 {
+  color: #003;
+}
