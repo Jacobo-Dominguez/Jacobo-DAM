@@ -24,7 +24,7 @@ Cada carpeta incluye:
 | 🧠 **Optativa DAM** | Proyectos con **HTML, CSS, JavaScript y PHP**, orientados al desarrollo web dinámico. | [Ir a carpeta →](./Optativa) |
 | 💡 **Programación** | Ejercicios y proyectos de programación en distintos lenguajes, aplicando **principios de POO y estructuras de datos** en Java. | [Ir a carpeta →](./Programacion) |
 | 🗃️ **Sistemas de Gestión Empresarial** | Aplicaciones orientadas a la **automatización y gestión de procesos empresariales en Python**. | [Ir a carpeta →](./Sistemas%20de%20Gestion) |
-| 🗃️ **Programación de servicios y procesos** | Aplicaciones orientadas a la **gestión de procesos informaticos**. | [Ir a carpeta →](./Programación%20de%20servicios%20y%20procesos%20) |
+| 🗃️ **Programación de servicios y procesos** | Aplicaciones orientadas a la **gestión de procesos informaticos**. | [Ir a carpeta →](./Programación%20de%20servicios%20y%20procesos%20(PSP)) |
 
 ---
 
