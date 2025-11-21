@@ -1,30 +1,21 @@
 /* Estilo básico moderno azul/neón */
 
-/*
-  Variables globales: colores y tokens que controlan la paleta
-  - Cambia aquí los colores para actualizar el look completo
-*/
+/* Variables globales: colores y tokens que controlan la paleta */
 :root {
-  --bg: #0e1116; /* color de fondo principal (no usado directamente, pero útil) */
+  --bg: #0e1116; /* color de fondo principal */
   --card: linear-gradient(180deg, #0077ff, transparent); /* fondo de tarjetas / contenedores */
   --accent: #00c0ff; /* color acento / neon */
   --text: #e6eef6; /* color principal de texto */
   --muted: #9aa8b8; /* color para metadatos y texto secundario */
 }
 
-/*
-  Reset / tipografía global
-  - Si quieres cambiar la fuente, edítala aquí
-*/
+/* Reset / tipografía global */
 * {
   box-sizing: border-box;
   font-family: Inter, Segoe UI, Arial, Helvetica, sans-serif;
 }
 
-/*
-  Estilos del body / layout base
-  - Fondo en gradiente, color del texto
-*/
+/* Estilos del body / layout base */
 body {
   margin: 0;
   background: linear-gradient(180deg, #071022 0%, #0b1320 100%);
@@ -32,10 +23,7 @@ body {
   min-height: 100vh;
 }
 
-/*
-  Contenedor principal usado por header, main y footer
-  - Cambia `max-width` y `padding` para ajustar el ancho global
-*/
+/* Contenedor principal usado por header, main y footer */
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -76,6 +64,7 @@ body {
   color: #001;
   background: linear-gradient(90deg, var(--accent), #0077ff);
   border: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
 }
 
 .who {
@@ -83,10 +72,11 @@ body {
   color: var(--muted);
 }
 
-/*
-  CARTAS / BLOQUES (`.card`)
-  - Se usan en formularios (login/register), detalles de post, edición, etc.
-*/
+.profile-link {
+    text-decoration: none;
+}
+
+/* CARTAS / BLOQUES (`.card`) */
 .card {
   background: var(--card);
   padding: 18px;
@@ -95,10 +85,7 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-/*
-  Formularios: inputs y textareas usados en login/register y creación/edición de posts
-  - Cambia el padding, border-radius o border para ajustar el look de los formularios
-*/
+/* Formularios: inputs y textareas usados en login/register y creación/edición de posts */
 input,
 textarea {
   width: 100%;
@@ -110,10 +97,7 @@ textarea {
   color: var(--text);
 }
 
-/*
-  Botones principales (acción primaria)
-  - `.primary` se usa en formularios para acciones como Publicar, Crear cuenta
-*/
+/* Botones principales (acción primaria) */
 button.primary {
   background: linear-gradient(90deg, var(--accent), #0077ff);
   border: none;
@@ -135,11 +119,7 @@ button.primary {
   color: var(--muted);
 }
 
-/*
-  GRID de posts en la página principal (`views/post/home.php`)
-  - `.posts-grid` controla la rejilla responsiva
-  - `.post-card` cada tarjeta individual de post
-*/
+/* GRID de posts en la página principal (`views/post/home.php`) */
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -155,7 +135,7 @@ button.primary {
 /* Imagen de la tarjeta de post (miniatura) */
 .post-card img {
   width: 100%;
-  height: 150px; /* cambiar para ajustar la altura de las miniaturas */
+  height: 150px;
   object-fit: cover;
   border-radius: 6px;
 }
@@ -212,10 +192,7 @@ p > .btn {
   margin: 12px 0;
 }
 
-/*
-  Animaciones / micro-interactions
-  - Efecto hover en `.post-card` para levantar la tarjeta
-*/
+/* Animaciones / micro-interactions */
 @media (prefers-reduced-motion: no-preference) {
   .post-card {
     transition: transform .18s ease, box-shadow .18s ease;
@@ -302,7 +279,6 @@ body.light .site-footer {
   color: #444;
 }
 
-/* Asegurar que el texto dentro de cards sea legible */
 body.light .card h2,
 body.light .card h3,
 body.light .post-card h3 {
