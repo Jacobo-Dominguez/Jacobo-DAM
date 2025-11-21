@@ -4,7 +4,7 @@ require __DIR__ . '/config.php';
 use app\controller\AuthController;
 use app\controller\PostController;
 
-$route = $_GET['route'] ?? 'home';
+$route = $_GET['route'] ?? 'login';
 
 // Rutas simples: login, register, logout, home, post/create, post/edit, post/delete, post/show
 if ($route === 'login') {
@@ -13,6 +13,10 @@ if ($route === 'login') {
     (new AuthController())->register();
 } elseif ($route === 'logout') {
     (new AuthController())->logout();
+} elseif ($route === 'profile') {
+    (new AuthController())->profile();
+} elseif ($route === 'profile/edit') {
+    (new AuthController())->editProfile();
 } elseif (str_starts_with($route, 'post/')) {
     $action = substr($route, 5);
     $pc = new PostController();
