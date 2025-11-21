@@ -20,10 +20,11 @@ Cada carpeta incluye:
 | Asignatura | Descripción | Enlace |
 |-------------|--------------|--------|
 | 🔌 **Acceso a Datos** | Proyectos centrados en la **persistencia y acceso a bases de datos**, utilizando SQL, JDBC, y frameworks ORM. | [Ir a carpeta →](./Acceso%20a%20datos) |
-| 🎨 **Desarrollo de Interfaces** | Interfaces gráficas (UI/UX) en JavaFX, Android Studio y otros entornos visuales. | [Ir a carpeta →](./Desarrollo%20de%20interfaces) |
+| 🎨 **Desarrollo de Interfaces** | Interfaces gráficas (UI/UX) en JavaFX y otros entornos visuales. | [Ir a carpeta →](./Desarrollo%20de%20interfaces) |
 | 🧠 **Optativa DAM** | Proyectos con **HTML, CSS, JavaScript y PHP**, orientados al desarrollo web dinámico. | [Ir a carpeta →](./Optativa) |
-| 💡 **Programación** | Ejercicios y proyectos de programación en distintos lenguajes, aplicando **principios de POO y estructuras de datos**. | [Ir a carpeta →](./Programacion) |
-| 🗃️ **Sistemas de Gestión Empresarial** | Aplicaciones orientadas a la **automatización y gestión de procesos empresariales**. | [Ir a carpeta →](./Sistemas%20de%20Gestion) |
+| 💡 **Programación** | Ejercicios y proyectos de programación en distintos lenguajes, aplicando **principios de POO y estructuras de datos** en Java. | [Ir a carpeta →](./Programacion) |
+| 🗃️ **Sistemas de Gestión Empresarial** | Aplicaciones orientadas a la **automatización y gestión de procesos empresariales en Python**. | [Ir a carpeta →](./Sistemas%20de%20Gestion) |
+| 🗃️ **Programación de servicios y procesos** | Aplicaciones orientadas a la **gestión de procesos informaticos**. | [Ir a carpeta →](./Programación%20de%20servicios%20y%20procesos%20(PSP)) |
 
 ---
 
