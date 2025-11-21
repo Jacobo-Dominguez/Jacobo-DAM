@@ -1,5 +1,5 @@
 -- Script para crear la base de datos y tablas
--- DROP DATABASE IF EXISTS blogpersonal;
+DROP DATABASE IF EXISTS blogpersonal;
 CREATE DATABASE IF NOT EXISTS blogpersonal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE blogpersonal;
 
@@ -22,7 +22,20 @@ CREATE TABLE IF NOT EXISTS posts (
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
   image VARCHAR(255) DEFAULT NULL,
+  -- Estado de moderación: 0 = pendiente, 1 = publicado, 2 = rechazado
+  status TINYINT DEFAULT 0,
   created_at DATETIME,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Si ya tienes la tabla `posts` y quieres añadir la columna `status`, ejecuta:
+-- ALTER TABLE posts ADD COLUMN status TINYINT DEFAULT 0 AFTER image;
+
+-- LAS CONTRASEÑAS SON 123 (MUY SEGURAS)
+INSERT INTO users (name, email, avatar_mime, avatar, description, password, is_admin, created_at) 
+VALUES 
+('Admin', 'admin@admin.com', NULL, NULL, 'Soy el admin.', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 1, now()),
+('Jacobo', 'usuario@email.com', NULL, NULL, 'Soy un estudiante', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 0, NOW());
+
+
 

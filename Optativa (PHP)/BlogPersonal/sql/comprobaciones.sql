@@ -4,9 +4,7 @@ USE blogpersonal;
 -- Comprobacion de que existen los avatares
 SHOW COLUMNS FROM users LIKE 'avatar%';
 
--- Usuario y seteamos un admin
-SELECT * FROM users;
-UPDATE users SET is_admin = 1 WHERE email = 'admin@admin.com';
+-- Usuarios
 SELECT * FROM users;
 
 -- Comprobar que se guardan los avatares
@@ -15,3 +13,6 @@ FROM users
 WHERE id = 1;
 
 SELECT * FROM posts;
+
+
+
