@@ -10,51 +10,57 @@ Proyecto mínimo de gestión de contenidos (CMS) para un blog personal, hecho en
 **Estructura principal**
 ```
 BLOGPERSONAL/
-├── app/                          # Contiene toda la lógica de la aplicación (MVC)
-│   ├── controller/               # Controladores: manejan las rutas y la lógica de negocio
-│   │   ├── AuthController.php    # Gestiona login, registro, logout
-│   │   └── PostController.php    # Gestiona posts: crear, leer, editar, eliminar
-│   │
-│   ├── core/                     # Clases base y utilidades globales
-│   │   ├── Auth.php              # Maneja autenticación y sesión
-│   │   ├── DB.php                # Conexión a la base de datos
-│   │   └── Helpers.php           # Funciones auxiliares (redirección, carga de vistas, etc.)
-│   │
-│   └── model/                    # Modelos: interactúan con la base de datos
-│       ├── Post.php              # Operaciones CRUD sobre los posts
-│       └── User.php              # Operaciones CRUD sobre los usuarios
 │
-├── public/                       # Carpeta pública accesible desde el navegador
-│   ├── assets/                   # Recursos estáticos (CSS, JS, imágenes)
-│   │   ├── css/
-│   │   │   └── style.css         # Hoja de estilos principal
-│   │   └── js/
-│   │       └── theme.js          # Script para cambiar entre modo claro/oscuro
+├── app/                          # Lógica de negocio (MVC)
+│   ├── controller/               # Controladores
+│   │   ├── AuthController.php    # Login, registro, logout, perfil
+│   │   └── PostController.php    # Gestión de posts
 │   │
-│   └── uploads/                  # Imágenes subidas por los usuarios (publicadas en los posts)
+│   ├── core/                     # Clases base y utilidades
+│   │   ├── Auth.php              # Autenticación y sesión
+│   │   ├── DB.php                # Conexión a base de datos
+│   │   └── Helpers.php           # Funciones auxiliares (redirección, vista, etc.)
+│   │
+│   └── model/                    # Modelos de datos
+│       ├── Post.php              # Gestión de posts
+│       └── User.php              # Gestión de usuarios (avatar, descripción, etc.)
 │
-├── sql/                          # Archivos SQL para la base de datos
-│   └── db.sql                    # Script para crear tablas y estructura inicial
+├── public/                       # Archivos accesibles desde el navegador
+│   ├── assets/                   # Recursos estáticos
+│   │   ├── css/                  # Hojas de estilo
+│   │   │   └── style.css         # Estilos globales (tema oscuro/claro, botones, cards)
+│   │   │
+│   │   └── js/                   # Scripts JavaScript
+│   │       └── theme.js          # Cambio de tema claro/oscuro
+│   │
+│   └── uploads/                  # Subidas de archivos (opcional, si cambias a guardar en disco)
 │
-├── views/                        # Vistas HTML (plantillas que se muestran al usuario)
-│   ├── auth/                     # Vistas relacionadas con autenticación
-│   │   ├── login.php             # Formulario de inicio de sesión
+├── sql/                          # Scripts SQL para la base de datos
+│   ├── db.sql                    # Creación de tablas (users, posts)
+│   └── comprobaciones.sql        # Datos de prueba o inserciones iniciales
+│
+├── views/                        # Plantillas HTML (vistas)
+│   ├── auth/                     # Vistas de autenticación
+│   │   ├── login.php             # Formulario de login
 │   │   └── register.php          # Formulario de registro
 │   │
-│   ├── layout/                   # Plantillas compartidas (header, footer)
-│   │   ├── header.php            # Encabezado común (con menú de navegación)
-│   │   └── footer.php            # Pie de página común
+│   ├── layout/                   # Plantillas compartidas
+│   │   ├── header.php            # Cabecera con menú y avatar
+│   │   └── footer.php            # Pie de página + script de tema
 │   │
-│   └── post/                     # Vistas relacionadas con posts
-│       ├── edit_post.php         # Formulario de edición de post
-│       ├── home.php              # Lista de posts (página principal)
+│   └── post/                     # Vistas de posts y perfil
+│       ├── home.php              # Lista de posts
 │       ├── post.php              # Formulario de creación de post
-│       └── show.php              # Vista detallada de un post
-│
-├── .htaccess                     # Configuración del servidor Apache (para reescritura de URLs)
-├── config.php                    # Archivo de configuración global (ej: constantes, conexión BD)
-├── index.php                     # Punto de entrada único (front controller)
-└── README.md                     # Documentación del proyecto (instrucciones, descripción, etc.)
+│       ├── show.php              # Detalle de un post
+│       └── edit_post.php         # Edición de post
+│       
+├── profile_edit.php              # Edición del perfil
+├── profile.php                   # Perfil del usuario
+├── avatar.php                    # Endpoint para servir avatares desde BD
+├── config.php                    # Configuración global (DB, autoloader)
+├── index.php                     # Punto de entrada principal (router)
+├── .htaccess                     # Reglas de reescritura (si usas Apache)
+└── README.md                     # Documentación del proyecto
 ```
 
 Requisitos
@@ -99,6 +105,8 @@ Rutas principales
 - `?route=post/update` — Acción para actualizar post (POST)
 - `?route=post/delete&id={id}` — Eliminar post
 - `?route=post/show&id={id}` — Ver post completo
+- `?route=profile` — Ver pefil de usuario
+- `?route=profile/edit` — Editar perfil de usuario
 
 Autenticación y privilegios
 - La tabla `users` tiene la columna `is_admin` (TINYINT). Si su valor es `1`, el usuario es tratado como admin.
@@ -109,41 +117,7 @@ Cómo convertir a un usuario en admin
 1. Tras registrar un usuario desde la interfaz, abre MySQL y ejecuta:
 
 ```sql
-UPDATE blogpersonal.users SET is_admin = 1 WHERE email = 'tu-email@ejemplo.com';
+USE blogpersonal
+UPDATE users SET is_admin = 1 WHERE email = 'tu-email@ejemplo.com';
 ```
 
-O desde PowerShell (si `mysql` está en PATH):
-```powershell
-mysql -u root -p -e "UPDATE blogpersonal.users SET is_admin = 1 WHERE email = 'tu-email@ejemplo.com';"
-```
-
-Notas de seguridad importantes (no para producción)
-- No hay protección CSRF en formularios. Añade tokens CSRF en `register`, `login`, `post/store`, `post/update`, etc.
-- La subida de archivos no valida exhaustivamente el tipo de fichero ni el tamaño. Añade validación de mime type y límites de tamaño.
-- Validación de inputs mínima. Se recomienda sanitizar/validar todos los datos recibidos.
-- No hay control de permisos en `delete`/`edit` más allá de la vista: considera validar en controlador que el usuario que edita/elimina sea el autor o admin.
-
-Mejoras sugeridas
-- Añadir sistema de roles y panel de administración para gestionar usuarios/posts.
-- Añadir paginación, búsqueda y etiquetas para posts.
-- Reemplazar el enrutador simple por un router PSR-7/PSR-15 o un micro-framework si el proyecto crece.
-- Añadir tests unitarios y de integración.
-
-Debug y logs
-- Para depuración temporal puedes volcar `$_SESSION['user']` en `views/layout/header.php` o escribir a un archivo de log.
-
-Archivos clave a revisar
-- `config.php` — configuración y autoloader
-- `app/core/DB.php` — conexión PDO
-- `app/core/Auth.php` — helpers de sesión
-- `app/controller/AuthController.php` — lógica de login/registro
-- `app/controller/PostController.php` — lógica de posts
-- `app/model/*` — interacción con la base de datos
-
-Contacto
-Si quieres, puedo:
-- Añadir un script `create_admin.php` para crear un admin desde CLI.
-- Habilitar CSRF y validación de uploads automáticamente.
-- Implementar un panel de usuarios para gestionar roles.
-
-— Fin
