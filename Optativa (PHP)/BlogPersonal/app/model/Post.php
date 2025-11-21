@@ -15,6 +15,15 @@ class Post
         return $stmt->fetchAll();
     }
 
+    // Obtiene todos los posts publicados
+    public static function allPublished()
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 1 ORDER BY p.created_at DESC');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     // Obtiene todos los posts de un usuario específico
     public static function findByUser($user_id)
     {
@@ -40,8 +49,9 @@ class Post
     public static function create($user_id, $title, $content, $image = null)
     {
         $db = DB::connection();
-        $stmt = $db->prepare('INSERT INTO posts (user_id,title,content,image,created_at) VALUES (?,?,?,?,NOW())');
-        $stmt->execute([$user_id, $title, $content, $image]);
+        // status: 0 = pending, 1 = published, 2 = rejected
+        $stmt = $db->prepare('INSERT INTO posts (user_id,title,content,image,status,created_at) VALUES (?,?,?,?,?,NOW())');
+        $stmt->execute([$user_id, $title, $content, $image, 0]);
         return $db->lastInsertId();
     }
 
@@ -65,5 +75,13 @@ class Post
         $db = DB::connection();
         $stmt = $db->prepare('DELETE FROM posts WHERE id = ?');
         return $stmt->execute([$id]);
+    }
+
+    // Cambia el estado de un post: 0=pending,1=published,2=rejected
+    public static function setStatus($id, $status)
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('UPDATE posts SET status = ? WHERE id = ?');
+        return $stmt->execute([(int)$status, (int)$id]);
     }
 }

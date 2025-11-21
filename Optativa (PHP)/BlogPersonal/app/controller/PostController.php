@@ -18,11 +18,12 @@ class PostController
             Helpers::redirect('?route=login');
         }
 
-        // Si es admin mostrar todos los posts, si no, solo los del usuario logueado
+        // Si es admin mostrar todos los posts (incluyendo pendientes),
+        // si no, mostrar solo los posts publicados.
         if (Auth::isAdmin()) {
             $posts = Post::all();
         } else {
-            $posts = Post::findByUser(Auth::id());
+            $posts = Post::allPublished();
         }
 
         Helpers::view('post/home.php', ['posts' => $posts, 'user' => $user]);
@@ -52,7 +53,32 @@ class PostController
             $imageName = time() . '_' . basename($_FILES['image']['name']);
             move_uploaded_file($tmp, UPLOADS_DIR . '/' . $imageName);
         }
-        Post::create($user['id'], $title, $content, $imageName); // Guardamos el post en la base de datos, asociado al ID
+        // Guardamos el post en estado pendiente (status = 0)
+        Post::create($user['id'], $title, $content, $imageName);
+        Helpers::redirect('?route=home');
+    }
+
+    // Aprobar un post (solo admin)
+    public function approve()
+    {
+        $user = Auth::user();
+        if (!$user || !Auth::isAdmin()) Helpers::redirect('?route=login');
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            Post::setStatus($id, 1);
+        }
+        Helpers::redirect('?route=home');
+    }
+
+    // Rechazar un post (solo admin) — lo marcamos como rechazado (2)
+    public function reject()
+    {
+        $user = Auth::user();
+        if (!$user || !Auth::isAdmin()) Helpers::redirect('?route=login');
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            Post::setStatus($id, 2);
+        }
         Helpers::redirect('?route=home');
     }
 
@@ -63,6 +89,12 @@ class PostController
         if (!$user) Helpers::redirect('?route=login');
         $id = $_GET['id'] ?? null; // Obtenemos el ID del post desde la URL
         $post = Post::find($id); // Buscamos el post por su ID.
+        if (!$post) Helpers::redirect('?route=home');
+        // Si el post no está publicado, solo el autor o un admin pueden verlo
+        $status = $post['status'] ?? 0;
+        if ($status != 1 && !Auth::isAdmin() && ($post['user_id'] ?? null) != Auth::id()) {
+            Helpers::redirect('?route=home');
+        }
         Helpers::view('post/show.php', ['post' => $post]); // Mostramos la vista de detalle con los datos del post.
     }
 
@@ -73,6 +105,11 @@ class PostController
         if (!$user) Helpers::redirect('?route=login');
         $id = $_GET['id'] ?? null;
         $post = Post::find($id);
+        // Solo el autor o admin pueden editar
+        if (!$post) Helpers::redirect('?route=home');
+        if (!Auth::isAdmin() && ($post['user_id'] ?? null) != Auth::id()) {
+            Helpers::redirect('?route=home');
+        }
         Helpers::view('post/edit_post.php', ['post' => $post]);
     }
 
@@ -82,6 +119,9 @@ class PostController
         $user = Auth::user();
         if (!$user) Helpers::redirect('?route=login');
         $id = $_POST['id'] ?? null;
+        $post = Post::find($id);
+        if (!$post) Helpers::redirect('?route=home');
+        if (!Auth::isAdmin() && ($post['user_id'] ?? null) != Auth::id()) Helpers::redirect('?route=home');
         $title = $_POST['title'] ?? '';
         $content = $_POST['content'] ?? '';
         $imageName = null;
@@ -100,7 +140,10 @@ class PostController
         $user = Auth::user();
         if (!$user) Helpers::redirect('?route=login');
         $id = $_GET['id'] ?? null;
-        Post::delete($id);
+        $post = Post::find($id);
+        if ($post && (Auth::isAdmin() || ($post['user_id'] ?? null) == Auth::id())) {
+            Post::delete($id);
+        }
         Helpers::redirect('?route=home');
     }
 }

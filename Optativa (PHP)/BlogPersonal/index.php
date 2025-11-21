@@ -25,6 +25,8 @@ if ($route === 'login') {
     elseif ($action === 'edit') $pc->edit();
     elseif ($action === 'update') $pc->update();
     elseif ($action === 'delete') $pc->delete();
+    elseif ($action === 'approve') $pc->approve();
+    elseif ($action === 'reject') $pc->reject();
     elseif ($action === 'show') $pc->show();
     else $pc->index();
 } else {
