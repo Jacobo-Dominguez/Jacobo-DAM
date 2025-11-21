@@ -27,11 +27,19 @@ class Auth
     // Inicia sesión guardando los datos del usuario en la sesión
     public static function loginByArray(array $user)
     {
+        // Avoid storing binary avatar in session; provide URL endpoint to serve it
+        $avatarUrl = null;
+        if (!empty($user['id'])) {
+            $avatarUrl = '/avatar.php?id=' . $user['id'];
+        }
+
         $_SESSION['user'] = [
             'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email'],
+            'name' => $user['name'] ?? $user['username'] ?? '',
+            'email' => $user['email'] ?? '',
             'is_admin' => $user['is_admin'] ?? 0,
+            'avatar_url' => $avatarUrl,
+            'description' => $user['description'] ?? null,
         ];
     }
 

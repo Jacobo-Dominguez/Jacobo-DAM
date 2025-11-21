@@ -2,7 +2,7 @@
 // Este archivo define el controlador de autenticación (login, registro, cierre de sesión)
 namespace app\controller;
 
-// Importamos las clases que vamos a usar:
+// Importamos de las clases que vamos a usar:
 use app\core\Helpers;
 use app\core\Auth;
 use app\model\User;
@@ -39,6 +39,7 @@ class AuthController
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
+            $description = $_POST['description'] ?? null;
             // Validación básica: aseguramos que ningún campo esté vacío.
             if (empty($name) || empty($email) || empty($password)) {
                 $error = 'Completa todos los campos';
@@ -51,7 +52,22 @@ class AuthController
                 Helpers::view('auth/register.php', ['error' => $error]);
                 return;
             }
-            $id = User::create($name, $email, $password);
+            // Subida de avatar (opcional) -> guardamos en BD como BLOB
+            $avatarBinary = null;
+            $avatarMime = null;
+            if (!empty($_FILES['avatar']['tmp_name'])) {
+                $file = $_FILES['avatar'];
+                $allowed = ['image/jpeg', 'image/png'];
+                if (!in_array($file['type'], $allowed) || $file['size'] > 2 * 1024 * 1024) {
+                    $error = 'Archivo no válido';
+                    Helpers::view('auth/register.php', ['error' => $error]);
+                    return;
+                }
+                $avatarBinary = file_get_contents($file['tmp_name']);
+                $avatarMime = $file['type'];
+            }
+
+            $id = User::create($name, $email, $password, $avatarBinary, $avatarMime, $description);
             $user = User::findById($id);
             Auth::loginByArray($user);
             Helpers::redirect('?route=home');
@@ -59,6 +75,54 @@ class AuthController
             Helpers::view('auth/register.php');
         }
     }   
+
+    // Mostrar perfil
+    public function profile()
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            Helpers::redirect('?route=login');
+        }
+        $u = User::findById($user['id']);
+        Helpers::view('profile.php', ['user' => $u]);
+    }
+
+    // Editar perfil
+    public function editProfile()
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            Helpers::redirect('?route=login');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $description = $_POST['description'] ?? null;
+
+            $avatarBinary = null;
+            $avatarMime = null;
+            if (!empty($_FILES['avatar']['tmp_name'])) {
+                $file = $_FILES['avatar'];
+                $allowed = ['image/jpeg', 'image/png'];
+                if (!in_array($file['type'], $allowed) || $file['size'] > 2 * 1024 * 1024) {
+                    $error = 'Archivo no válido';
+                    Helpers::view('profile_edit.php', ['error' => $error]);
+                    return;
+                }
+                $avatarBinary = file_get_contents($file['tmp_name']);
+                $avatarMime = $file['type'];
+            }
+
+            User::update($user['id'], $name, $email, $avatarBinary, $avatarMime, $description);
+            $u = User::findById($user['id']);
+            Auth::loginByArray($u); // refresh session
+            Helpers::redirect('?route=profile');
+        } else {
+            $u = User::findById($user['id']);
+            Helpers::view('profile_edit.php', ['user' => $u]);
+        }
+    }
 
     // Método para cerrar sesión.
     public function logout()
