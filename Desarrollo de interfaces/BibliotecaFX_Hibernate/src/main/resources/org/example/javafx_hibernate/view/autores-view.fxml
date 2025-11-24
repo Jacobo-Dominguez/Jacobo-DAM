@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.javafx_hibernate.controller.AutoresController"
+      spacing="10">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Registro de Autores" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="8">
+        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNombre" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Nacionalidad:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNacionalidad" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Button text="Guardar Autor" onAction="#onGuardarAutor" styleClass="primary"/>
+
+    <Separator/>
+
+    <Label text="Lista de Autores" style="-fx-font-weight: bold;"/>
+
+    <TableView fx:id="tablaAutores" prefHeight="250">
+        <columns>
+            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="200"/>
+            <TableColumn fx:id="colNacionalidad" text="Nacionalidad" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <Button text="Eliminar Autor" onAction="#onEliminarAutor"/>
+        <Button text="Buscar por nombre" onAction="#onBuscarPorNombre"/>
+        <Button text="Listar todos" onAction="#onListarTodos"/>
+    </HBox>
+
+</VBox>
