@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.javafx_hibernate.controller.LibrosController"
+      spacing="10">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Registro de Libros" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="8">
+        <Label text="Título:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtTitulo" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="ISBN:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtIsbn" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Editorial:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEditorial" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Año:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtAnio" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Autor:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <ComboBox fx:id="comboAutor" prefWidth="180"/>
+            <Button text="➕" onAction="#onNuevoAutor" />
+        </HBox>
+    </GridPane>
+
+    <Button text="Guardar Libro" onAction="#onGuardarLibro" styleClass="primary"/>
+
+    <Separator/>
+
+    <Label text="Libros disponibles" style="-fx-font-weight: bold;"/>
+
+    <TableView fx:id="tablaLibros" prefHeight="250">
+        <columns>
+            <TableColumn fx:id="colTitulo" text="Título" prefWidth="200"/>
+            <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="150"/>
+            <TableColumn fx:id="colAutor" text="Autor" prefWidth="150"/>
+            <TableColumn fx:id="colDisponible" text="Disponible" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <Button text="Eliminar Libro" onAction="#onEliminarLibro"/>
+        <Button text="Buscar por título" onAction="#onBuscarPorTitulo"/>
+        <Button text="Buscar por autor" onAction="#onBuscarPorAutor"/>
+        <Button text="Listar todos" onAction="#onListarTodos"/>
+    </HBox>
+
+</VBox>
