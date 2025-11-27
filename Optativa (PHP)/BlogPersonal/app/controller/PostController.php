@@ -18,13 +18,9 @@ class PostController
             Helpers::redirect('?route=login');
         }
 
-        // Si es admin mostrar todos los posts (incluyendo pendientes),
-        // si no, mostrar solo los posts publicados.
-        if (Auth::isAdmin()) {
-            $posts = Post::all();
-        } else {
-            $posts = Post::allPublished();
-        }
+        // Mostrar solo posts publicados en el home (para todos los usuarios)
+        // Los posts pendientes se gestionan en la página de moderación
+        $posts = Post::allPublished();
 
         Helpers::view('post/home.php', ['posts' => $posts, 'user' => $user]);
     }
@@ -82,6 +78,18 @@ class PostController
         Helpers::redirect('?route=home');
     }
 
+    // Página de moderación (solo admin)
+    public function moderate()
+    {
+        $user = Auth::user();
+        if (!$user || !Auth::isAdmin()) Helpers::redirect('?route=login');
+        
+        // Obtener todos los posts pendientes
+        $posts = Post::allPending();
+        
+        Helpers::view('post/moderate.php', ['posts' => $posts, 'user' => $user]);
+    }
+
     // Muestra un post individual (en detalle)
     public function show()
     {
@@ -90,12 +98,11 @@ class PostController
         $id = $_GET['id'] ?? null; // Obtenemos el ID del post desde la URL
         $post = Post::find($id); // Buscamos el post por su ID.
         if (!$post) Helpers::redirect('?route=home');
-        // Si el post no está publicado, solo el autor o un admin pueden verlo
         $status = $post['status'] ?? 0;
         if ($status != 1 && !Auth::isAdmin() && ($post['user_id'] ?? null) != Auth::id()) {
             Helpers::redirect('?route=home');
         }
-        Helpers::view('post/show.php', ['post' => $post]); // Mostramos la vista de detalle con los datos del post.
+        Helpers::view('post/show.php', ['post' => $post]);// Mostramos la vista de detalle con los datos del post.
     }
 
     // Muestra el formulario para editar un post.

@@ -24,6 +24,15 @@ class Post
         return $stmt->fetchAll();
     }
 
+    // Obtiene todos los posts pendientes de moderación
+    public static function allPending()
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 0 ORDER BY p.created_at DESC');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     // Obtiene todos los posts de un usuario específico
     public static function findByUser($user_id)
     {

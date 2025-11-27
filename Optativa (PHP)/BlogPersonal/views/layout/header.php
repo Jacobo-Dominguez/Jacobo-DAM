@@ -18,6 +18,9 @@
                     <?php endif; ?>
                     <span class="who"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
                 </a>
+                <?php if (!empty($_SESSION['user']['is_admin'])): ?>
+                    <a class="btn" href="?route=post/moderate">Moderar</a>
+                <?php endif; ?>
                 <a class="btn" href="?route=post/create">Crear post</a>
                 <a class="btn" href="?route=logout">Cerrar sesión</a>
             <?php else: ?>

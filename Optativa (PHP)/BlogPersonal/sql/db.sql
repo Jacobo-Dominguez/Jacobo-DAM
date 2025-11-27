@@ -32,10 +32,11 @@ CREATE TABLE IF NOT EXISTS posts (
 -- ALTER TABLE posts ADD COLUMN status TINYINT DEFAULT 0 AFTER image;
 
 -- LAS CONTRASEÑAS SON 123 (MUY SEGURAS)
+-- Los usuarios se crean con el avatar predeterminado
 INSERT INTO users (name, email, avatar_mime, avatar, description, password, is_admin, created_at) 
 VALUES 
-('Admin', 'admin@admin.com', NULL, NULL, 'Soy el admin.', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 1, now()),
-('Jacobo', 'usuario@email.com', NULL, NULL, 'Soy un estudiante', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 0, NOW());
+('Admin', 'admin@admin.com', 'image/png', LOAD_FILE('C:/Users/jacob/Desktop/Jacobo-DAM/Optativa (PHP)/BlogPersonal/public/assets/images/default-avatar.png'), 'Soy el admin.', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 1, now()),
+('Jacobo', 'usuario@email.com', 'image/png', LOAD_FILE('C:/Users/jacob/Desktop/Jacobo-DAM/Optativa (PHP)/BlogPersonal/public/assets/images/default-avatar.png'), 'Soy un estudiante', '$2y$10$MByqc18BUFfvWudpHW5Oq.ghvn61.HKA8oRnoo5mBY37G41vBRP52', 0, NOW());
 
 
 

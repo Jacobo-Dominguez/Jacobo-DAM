@@ -32,6 +32,16 @@ class User
     {
         $db = DB::connection();
         $hash = password_hash($password, PASSWORD_DEFAULT);
+        
+        // Si no se proporciona avatar, usar el avatar predeterminado
+        if ($avatar === null) {
+            $defaultAvatarPath = __DIR__ . '/../../public/assets/images/default-avatar.png';
+            if (file_exists($defaultAvatarPath)) {
+                $avatar = file_get_contents($defaultAvatarPath);
+                $avatar_mime = 'image/png';
+            }
+        }
+        
         try {
             $stmt = $db->prepare('INSERT INTO users (name,email,password,avatar_mime,avatar,description,is_admin,created_at) VALUES (?,?,?,?,?,?,0,NOW())');
             // Bind parameters to support BLOB using a memory stream for the blob

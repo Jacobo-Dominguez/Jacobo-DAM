@@ -27,6 +27,7 @@ if ($route === 'login') {
     elseif ($action === 'delete') $pc->delete();
     elseif ($action === 'approve') $pc->approve();
     elseif ($action === 'reject') $pc->reject();
+    elseif ($action === 'moderate') $pc->moderate();
     elseif ($action === 'show') $pc->show();
     else $pc->index();
 } else {
