@@ -18,11 +18,23 @@ class PostController
             Helpers::redirect('?route=login');
         }
 
+        // Sistema de "Cargar más" - 4 posts por carga
+        $postsPerPage = 4;
+        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $offset = ($page - 1) * $postsPerPage;
+        
         // Mostrar solo posts publicados en el home (para todos los usuarios)
         // Los posts pendientes se gestionan en la página de moderación
-        $posts = Post::allPublished();
+        $posts = Post::allPublished($postsPerPage, $offset);
+        $totalPosts = Post::countPublished();
+        $hasMore = ($offset + $postsPerPage) < $totalPosts;
 
-        Helpers::view('post/home.php', ['posts' => $posts, 'user' => $user]);
+        Helpers::view('post/home.php', [
+            'posts' => $posts, 
+            'user' => $user,
+            'currentPage' => $page,
+            'hasMore' => $hasMore
+        ]);
     }
 
     // Muestra el formulario para crear un nuevo post.
@@ -41,6 +53,7 @@ class PostController
 
         $title = $_POST['title'] ?? '';
         $content = $_POST['content'] ?? '';
+        $category = $_POST['category'] ?? 'General';
         $imageName = null;
         if (!empty($_FILES['image']['name'])) {
             // Obtenemos la ruta temporal del archivo subido.
@@ -50,7 +63,7 @@ class PostController
             move_uploaded_file($tmp, UPLOADS_DIR . '/' . $imageName);
         }
         // Guardamos el post en estado pendiente (status = 0)
-        Post::create($user['id'], $title, $content, $imageName);
+        Post::create($user['id'], $title, $content, $imageName, $category);
         Helpers::redirect('?route=home');
     }
 
@@ -84,10 +97,22 @@ class PostController
         $user = Auth::user();
         if (!$user || !Auth::isAdmin()) Helpers::redirect('?route=login');
         
-        // Obtener todos los posts pendientes
-        $posts = Post::allPending();
+        // Sistema de "Cargar más" - 4 posts por carga
+        $postsPerPage = 4;
+        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $offset = ($page - 1) * $postsPerPage;
         
-        Helpers::view('post/moderate.php', ['posts' => $posts, 'user' => $user]);
+        // Obtener todos los posts pendientes
+        $posts = Post::allPending($postsPerPage, $offset);
+        $totalPosts = Post::countPending();
+        $hasMore = ($offset + $postsPerPage) < $totalPosts;
+        
+        Helpers::view('post/moderate.php', [
+            'posts' => $posts, 
+            'user' => $user,
+            'currentPage' => $page,
+            'hasMore' => $hasMore
+        ]);
     }
 
     // Muestra un post individual (en detalle)
@@ -131,13 +156,14 @@ class PostController
         if (!Auth::isAdmin() && ($post['user_id'] ?? null) != Auth::id()) Helpers::redirect('?route=home');
         $title = $_POST['title'] ?? '';
         $content = $_POST['content'] ?? '';
+        $category = $_POST['category'] ?? 'General';
         $imageName = null;
         if (!empty($_FILES['image']['name'])) {
             $tmp = $_FILES['image']['tmp_name'];
             $imageName = time() . '_' . basename($_FILES['image']['name']);
             move_uploaded_file($tmp, UPLOADS_DIR . '/' . $imageName);
         }
-        Post::update($id, $title, $content, $imageName);
+        Post::update($id, $title, $content, $imageName, $category);
         Helpers::redirect('?route=home');
     }
 
@@ -152,5 +178,37 @@ class PostController
             Post::delete($id);
         }
         Helpers::redirect('?route=home');
+    }
+
+    // Buscar posts
+    public function search()
+    {
+        $user = Auth::user();
+        if (!$user) Helpers::redirect('?route=login');
+        
+        $query = $_GET['q'] ?? '';
+        $posts = [];
+        $hasMore = false;
+        $currentPage = 1;
+        
+        if (!empty($query)) {
+            // Sistema de "Cargar más" - 4 posts por carga
+            $postsPerPage = 4;
+            $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+            $offset = ($page - 1) * $postsPerPage;
+            
+            $posts = Post::search($query, $postsPerPage, $offset);
+            $totalPosts = Post::countSearch($query);
+            $hasMore = ($offset + $postsPerPage) < $totalPosts;
+            $currentPage = $page;
+        }
+        
+        Helpers::view('post/home.php', [
+            'posts' => $posts, 
+            'user' => $user, 
+            'searchQuery' => $query,
+            'currentPage' => $currentPage,
+            'hasMore' => $hasMore
+        ]);
     }
 }
