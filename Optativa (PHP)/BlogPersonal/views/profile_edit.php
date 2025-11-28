@@ -1,4 +1,4 @@
-<div class="container mt-4" style="max-width:700px;">
+<div class="container mt-4 profile-container">
     <h2>Editar perfil</h2>
 
     <?php if (!empty($error)): ?>
@@ -22,12 +22,12 @@
             <?php if (!empty($user['id'])): ?>
                 <div class="mb-3">
                     <label>Avatar actual</label>
-                    <div><img src="/avatar.php?id=<?= $user['id'] ?>" style="max-width:120px;border-radius:50%;object-fit:cover;"></div>
+                    <div><img src="/avatar.php?id=<?= $user['id'] ?>" class="profile-edit-avatar"></div>
                 </div>
             <?php else: ?>
                 <div class="mb-3">
                     <label>Avatar actual</label>
-                    <div style="width:120px;height:120px;background:#eee;border-radius:50%;"></div>
+                    <div class="avatar-placeholder-edit"></div>
                 </div>
             <?php endif; ?>
             <div class="mb-3">

@@ -1,12 +1,12 @@
-<div class="container mt-4" style="max-width:700px;">
+<div class="container mt-4 profile-container">
     <h2>Perfil de usuario</h2>
 
     <div class="card p-3">
         <div class="d-flex align-items-center mb-3">
             <?php if (!empty($user['id'])): ?>
-                <img src="/avatar.php?id=<?= $user['id'] ?>" alt="avatar" style="width:96px;height:96px;border-radius:50%;margin-right:12px;object-fit:cover;">
+                <img src="/avatar.php?id=<?= $user['id'] ?>" alt="avatar" class="profile-avatar">
             <?php else: ?>
-                <div style="width:96px;height:96px;border-radius:50%;background:#eee;display:inline-block;margin-right:12px;"></div>
+                <div class="avatar-placeholder"></div>
             <?php endif; ?>
             <div>
                 <h4><?= htmlspecialchars($user['name']) ?></h4>
