@@ -16,19 +16,27 @@ class Post
     }
 
     // Obtiene todos los posts publicados
-    public static function allPublished()
+    public static function allPublished($limit = null, $offset = 0)
     {
         $db = DB::connection();
-        $stmt = $db->prepare('SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 1 ORDER BY p.created_at DESC');
+        $sql = 'SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 1 ORDER BY p.created_at DESC';
+        if ($limit !== null) {
+            $sql .= ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset;
+        }
+        $stmt = $db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
     // Obtiene todos los posts pendientes de moderación
-    public static function allPending()
+    public static function allPending($limit = null, $offset = 0)
     {
         $db = DB::connection();
-        $stmt = $db->prepare('SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 0 ORDER BY p.created_at DESC');
+        $sql = 'SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 0 ORDER BY p.created_at DESC';
+        if ($limit !== null) {
+            $sql .= ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset;
+        }
+        $stmt = $db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -55,25 +63,25 @@ class Post
     }
 
     // Crea un nuevo post
-    public static function create($user_id, $title, $content, $image = null)
+    public static function create($user_id, $title, $content, $image = null, $category = 'General')
     {
         $db = DB::connection();
         // status: 0 = pending, 1 = published, 2 = rejected
-        $stmt = $db->prepare('INSERT INTO posts (user_id,title,content,image,status,created_at) VALUES (?,?,?,?,?,NOW())');
-        $stmt->execute([$user_id, $title, $content, $image, 0]);
+        $stmt = $db->prepare('INSERT INTO posts (user_id,title,content,image,category,status,created_at) VALUES (?,?,?,?,?,?,NOW())');
+        $stmt->execute([$user_id, $title, $content, $image, $category, 0]);
         return $db->lastInsertId();
     }
 
     // Actualiza un post existente
-    public static function update($id, $title, $content, $image = null)
+    public static function update($id, $title, $content, $image = null, $category = 'General')
     {
         $db = DB::connection();
         if ($image === null) {
-            $stmt = $db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
-            $stmt->execute([$title, $content, $id]);
+            $stmt = $db->prepare('UPDATE posts SET title = ?, content = ?, category = ? WHERE id = ?');
+            $stmt->execute([$title, $content, $category, $id]);
         } else {
-            $stmt = $db->prepare('UPDATE posts SET title = ?, content = ?, image = ? WHERE id = ?');
-            $stmt->execute([$title, $content, $image, $id]);
+            $stmt = $db->prepare('UPDATE posts SET title = ?, content = ?, image = ?, category = ? WHERE id = ?');
+            $stmt->execute([$title, $content, $image, $category, $id]);
         }
         return true;
     }
@@ -92,5 +100,77 @@ class Post
         $db = DB::connection();
         $stmt = $db->prepare('UPDATE posts SET status = ? WHERE id = ?');
         return $stmt->execute([(int)$status, (int)$id]);
+    }
+
+    // Obtiene las categorías disponibles
+    public static function getCategories()
+    {
+        return ['General', 'Tecnología', 'Personal', 'Viajes', 'Otros'];
+    }
+
+    // Filtra posts publicados por categoría
+    public static function findByCategory($category, $limit = null, $offset = 0)
+    {
+        $db = DB::connection();
+        $sql = 'SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 1 AND p.category = ? ORDER BY p.created_at DESC';
+        if ($limit !== null) {
+            $sql .= ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset;
+        }
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$category]);
+        return $stmt->fetchAll();
+    }
+
+    // Busca posts publicados por título o contenido
+    public static function search($query, $limit = null, $offset = 0)
+    {
+        $db = DB::connection();
+        $searchTerm = '%' . $query . '%';
+        $sql = 'SELECT p.*, u.name as author FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.status = 1 AND (p.title LIKE ? OR p.content LIKE ?) ORDER BY p.created_at DESC';
+        if ($limit !== null) {
+            $sql .= ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset;
+        }
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$searchTerm, $searchTerm]);
+        return $stmt->fetchAll();
+    }
+
+    // Cuenta el total de posts publicados
+    public static function countPublished()
+    {
+        $db = DB::connection();
+        $stmt = $db->query('SELECT COUNT(*) as total FROM posts WHERE status = 1');
+        $result = $stmt->fetch();
+        return $result['total'] ?? 0;
+    }
+
+    // Cuenta el total de posts pendientes
+    public static function countPending()
+    {
+        $db = DB::connection();
+        $stmt = $db->query('SELECT COUNT(*) as total FROM posts WHERE status = 0');
+        $result = $stmt->fetch();
+        return $result['total'] ?? 0;
+    }
+
+    // Cuenta resultados de búsqueda
+    public static function countSearch($query)
+    {
+        $db = DB::connection();
+        $searchTerm = '%' . $query . '%';
+        $stmt = $db->prepare('SELECT COUNT(*) as total FROM posts WHERE status = 1 AND (title LIKE ? OR content LIKE ?)');
+        $stmt->execute([$searchTerm, $searchTerm]);
+        $result = $stmt->fetch();
+        return $result['total'] ?? 0;
+    }
+
+    // Cuenta posts por categoría
+    public static function countByCategory($category)
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('SELECT COUNT(*) as total FROM posts WHERE status = 1 AND category = ?');
+        $stmt->execute([$category]);
+        $result = $stmt->fetch();
+        return $result['total'] ?? 0;
     }
 }
