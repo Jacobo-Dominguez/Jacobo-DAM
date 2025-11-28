@@ -1,123 +1,144 @@
 # BlogPersonal — CMS básico en PHP
 
-Proyecto mínimo de gestión de contenidos (CMS) para un blog personal, hecho en PHP sin frameworks, pensado para uso local y aprendizaje.
+Proyecto de gestión de contenidos (CMS) para un blog personal, desarrollado en PHP nativo sin frameworks. Este proyecto ha evolucionado para incluir características modernas como carga dinámica con AJAX, sistema de moderación, categorías y búsqueda.
 
-**Resumen rápido**
-- Login / Registro (usuarios normales). Solo un admin podrá ver todos los posts.
-- CRUD de posts (crear, ver, editar, eliminar). Subida de imagen opcional por post.
-- Autenticación por sesión PHP; la columna `is_admin` en la tabla `users` determina si un usuario es admin.
+## ✨ Características Principales
 
-**Estructura principal**
+*   **Gestión de Usuarios:**
+    *   Registro y Login seguro (contraseñas hasheadas).
+    *   **Roles:** Administrador y Usuario estándar.
+    *   **Perfil de Usuario:** Edición de perfil, avatar personalizado (con avatar por defecto para nuevos usuarios).
+*   **Gestión de Posts:**
+    *   **CRUD Completo:** Crear, Leer, Actualizar y Eliminar posts.
+    *   **Categorías:** Clasificación de posts por categorías.
+    *   **Imágenes:** Soporte para subir imágenes destacadas en los posts.
+*   **Sistema de Moderación:**
+    *   Los posts creados por usuarios requieren aprobación de un administrador.
+    *   Panel de moderación dedicado para administradores.
+    *   Estados de post: `Pendiente` (0) y `Publicado` (1).
+*   **Experiencia de Usuario (UX):**
+    *   **Carga Dinámica:** Botón "Cargar más" con AJAX para una navegación fluida sin recargas de página.
+    *   **Búsqueda:** Buscador integrado en tiempo real (título y contenido).
+    *   **Diseño Responsivo:** Interfaz moderna con CSS nativo, modo oscuro/claro y grid adaptativo.
+
+## 📂 Estructura del Proyecto
+
 ```
 BLOGPERSONAL/
 │
 ├── app/                          # Lógica de negocio (MVC)
 │   ├── controller/               # Controladores
-│   │   ├── AuthController.php    # Login, registro, logout, perfil
-│   │   └── PostController.php    # Gestión de posts
+│   │   ├── AuthController.php    # Autenticación y perfil
+│   │   └── PostController.php    # Lógica de posts, búsqueda y moderación
 │   │
-│   ├── core/                     # Clases base y utilidades
-│   │   ├── Auth.php              # Autenticación y sesión
-│   │   ├── DB.php                # Conexión a base de datos
-│   │   └── Helpers.php           # Funciones auxiliares (redirección, vista, etc.)
+│   ├── core/                     # Núcleo del framework
+│   │   ├── Auth.php              # Gestión de sesión y permisos
+│   │   ├── DB.php                # Conexión Singleton a MySQL
+│   │   └── Helpers.php           # Utilidades (vistas, redirecciones)
 │   │
 │   └── model/                    # Modelos de datos
-│       ├── Post.php              # Gestión de posts
-│       └── User.php              # Gestión de usuarios (avatar, descripción, etc.)
+│       ├── Post.php              # Consultas de posts (filtros, búsqueda, paginación)
+│       └── User.php              # Gestión de usuarios
 │
-├── public/                       # Archivos accesibles desde el navegador
-│   ├── assets/                   # Recursos estáticos
-│   │   ├── css/                  # Hojas de estilo
-│   │   │   └── style.css         # Estilos globales (tema oscuro/claro, botones, cards)
-│   │   │
-│   │   └── js/                   # Scripts JavaScript
-│   │       └── theme.js          # Cambio de tema claro/oscuro
+├── public/                       # Archivos públicos
+│   ├── assets/
+│   │   ├── css/
+│   │   │   ├── style.css         # Estilos principales
+│   │   │   └── inline-styles.css # Clases utilitarias
+│   │   └── js/
+│   │       └── theme.js          # Lógica del tema (Dark/Light)
 │   │
-│   └── uploads/                  # Subidas de archivos (opcional, si cambias a guardar en disco)
+│   └── uploads/                  # Directorio de imágenes subidas
 │
-├── sql/                          # Scripts SQL para la base de datos
-│   ├── db.sql                    # Creación de tablas (users, posts)
-│   └── comprobaciones.sql        # Datos de prueba o inserciones iniciales
+├── sql/                          # Base de datos
+│   ├── db.sql                    # Esquema completo y datos iniciales
+│   └── comprobaciones.sql        # Scripts de prueba
 │
-├── views/                        # Plantillas HTML (vistas)
-│   ├── auth/                     # Vistas de autenticación
-│   │   ├── login.php             # Formulario de login
-│   │   └── register.php          # Formulario de registro
-│   │
-│   ├── layout/                   # Plantillas compartidas
-│   │   ├── header.php            # Cabecera con menú y avatar
-│   │   └── footer.php            # Pie de página + script de tema
-│   │
-│   └── post/                     # Vistas de posts y perfil
-│       ├── home.php              # Lista de posts
-│       ├── post.php              # Formulario de creación de post
-│       ├── show.php              # Detalle de un post
-│       └── edit_post.php         # Edición de post
-│       
-├── profile_edit.php              # Edición del perfil
-├── profile.php                   # Perfil del usuario
-├── avatar.php                    # Endpoint para servir avatares desde BD
-├── config.php                    # Configuración global (DB, autoloader)
-├── index.php                     # Punto de entrada principal (router)
-├── .htaccess                     # Reglas de reescritura (si usas Apache)
-└── README.md                     # Documentación del proyecto
+├── views/                        # Vistas (HTML/PHP)
+│   ├── auth/                     # Login y Registro
+│   ├── layout/                   # Header y Footer compartidos
+│   ├── post/                     # Vistas de posts
+│   │   ├── home.php              # Página principal (Grid de posts + AJAX)
+│   │   ├── moderate.php          # Panel de moderación (Admin)
+│   │   ├── post.php              # Crear post
+│   │   ├── edit_post.php         # Editar post
+│   │   └── show.php              # Ver post individual
+│   └── profile*.php              # Vistas de perfil
+│
+├── avatar.php                    # Script para servir imágenes de avatar
+├── config.php                    # Configuración de BD y constantes
+├── index.php                     # Router principal
+└── README.md                     # Documentación
 ```
 
-Requisitos
-- PHP 7.4+ (recomendado PHP 8)
-- MySQL o MariaDB
-- Extensión PDO para MySQL
+## 🚀 Instalación y Puesta en Marcha
 
-Instalación y puesta en marcha (local)
-1. Clona o copia este proyecto en una carpeta, por ejemplo `C:\Users\tu\Desktop\BlogPersonal`.
-2. Crea la base de datos e importa el esquema:
+### Requisitos
+*   PHP 7.4 o superior (recomendado PHP 8.x)
+*   MySQL o MariaDB
+*   Extensión `pdo_mysql` habilitada en PHP
 
-```powershell
-# Ejecutar desde PowerShell (ajusta usuario/contraseña)
-mysql -u root -p < .\sql\db.sql
-```
+### Pasos
+1.  **Clonar el proyecto:**
+    ```bash
+    git clone <url-del-repo>
+    cd BlogPersonal
+    ```
 
-3. Ajusta la conexión en `config.php` si tu usuario/contraseña/host son distintos:
+2.  **Base de Datos:**
+    *   Crea una base de datos llamada `blogpersonal` (o el nombre que prefieras).
+    *   Importa el esquema y datos iniciales:
+    ```powershell
+    # Desde la raíz del proyecto
+    mysql -u root -p blogpersonal < sql/db.sql
+    ```
+    *   *Nota: El script `db.sql` crea usuarios por defecto: `admin@blog.com` (Admin) y `jacobo@blog.com` (Usuario).*
 
-```php
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'blogpersonal');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-```
+3.  **Configuración:**
+    *   Edita `config.php` con tus credenciales de base de datos:
+    ```php
+    define('DB_HOST', 'localhost');
+    define('DB_NAME', 'blogpersonal');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    ```
 
-4. Inicia el servidor PHP embebido para pruebas:
+4.  **Ejecutar:**
+    *   Usa el servidor interno de PHP para probar localmente:
+    ```powershell
+    php -S localhost:8000
+    ```
 
-```powershell
-php -S localhost:8000 -t C:\Users\tu\Desktop\BlogPersonal
-```
+5.  **Acceder:**
+    *   Abre tu navegador en `http://localhost:8000`.
 
-5. Abre en el navegador: `http://localhost:8000` (la app usa rutas por `?route=...`).
+## 🔗 Rutas y Navegación
 
-Rutas principales
-- `?route=login` — Iniciar sesión
-- `?route=register` — Registrarse (usuarios normales)
-- `?route=logout` — Cerrar sesión
-- `?route=home` — Página principal (lista de posts) — ésta es la ruta por defecto
-- `?route=post/create` — Formulario para crear post
-- `?route=post/store` — Acción para guardar post (POST)
-- `?route=post/edit&id={id}` — Formulario para editar post
-- `?route=post/update` — Acción para actualizar post (POST)
-- `?route=post/delete&id={id}` — Eliminar post
-- `?route=post/show&id={id}` — Ver post completo
-- `?route=profile` — Ver pefil de usuario
-- `?route=profile/edit` — Editar perfil de usuario
+El sistema utiliza un enrutamiento basado en parámetros query (`?route=...`).
 
-Autenticación y privilegios
-- La tabla `users` tiene la columna `is_admin` (TINYINT). Si su valor es `1`, el usuario es tratado como admin.
-- Al iniciar sesión, `AuthController` extrae el usuario de la BD y `Auth::loginByArray()` guarda en `$_SESSION['user']` los campos: `id`, `name`, `email`, `is_admin`.
-- `PostController::index()` usa `Auth::isAdmin()` para decidir si mostrar `Post::all()` (admin) o `Post::findByUser(Auth::id())` (usuario normal).
+| Ruta | Descripción | Acceso |
+| :--- | :--- | :--- |
+| `?route=home` | Página principal (Lista de posts publicados) | Público |
+| `?route=login` | Iniciar sesión | Público |
+| `?route=register` | Registro de nuevos usuarios | Público |
+| `?route=post/create` | Crear un nuevo post | Usuarios registrados |
+| `?route=post/moderate` | Panel de moderación de posts | **Solo Admin** |
+| `?route=post/search` | Resultados de búsqueda | Público |
+| `?route=profile` | Ver perfil de usuario | Usuarios registrados |
+| `?route=profile/edit` | Editar perfil y avatar | Usuarios registrados |
 
-Cómo convertir a un usuario en admin
-1. Tras registrar un usuario desde la interfaz, abre MySQL y ejecuta:
+## 🛠️ Detalles Técnicos
 
-```sql
-USE blogpersonal
-UPDATE users SET is_admin = 1 WHERE email = 'tu-email@ejemplo.com';
-```
+### Sistema "Cargar más" (AJAX)
+En lugar de la paginación tradicional, se implementó un botón "Cargar más" que solicita los siguientes posts vía AJAX (`fetch`).
+*   **Frontend:** `views/post/home.php` y `moderate.php` contienen el JS que maneja el botón, el contador de páginas y la inserción de nuevos posts en el DOM.
+*   **Backend:** Los controladores detectan si la petición es AJAX o normal y devuelven solo el HTML de las nuevas tarjetas de post si es necesario.
 
+### Moderación
+*   Campo `status` en la tabla `posts`: `0` (Pendiente), `1` (Publicado).
+*   Los usuarios normales crean posts con `status = 0`.
+*   Los administradores pueden ver posts pendientes en `?route=post/moderate` y aprobarlos (`status = 1`) o rechazarlos (eliminar).
+
+### Estilos
+*   Se ha migrado de estilos inline a clases CSS definidas en `public/assets/css/style.css` y `inline-styles.css` para mantener el código limpio y mantenible.
+*   Diseño adaptable con Grid CSS (2 columnas en escritorio).
