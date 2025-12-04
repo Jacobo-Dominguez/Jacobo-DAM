@@ -3,6 +3,7 @@ require __DIR__ . '/config.php';
 
 use app\controller\AuthController;
 use app\controller\PostController;
+use app\controller\UserController;
 
 $route = $_GET['route'] ?? 'login';
 
@@ -17,6 +18,12 @@ if ($route === 'login') {
     (new AuthController())->profile();
 } elseif ($route === 'profile/edit') {
     (new AuthController())->editProfile();
+} elseif (str_starts_with($route, 'user/')) {
+    $action = substr($route, 5);
+    $uc = new UserController();
+    if ($action === 'manage') $uc->manage();
+    elseif ($action === 'delete') $uc->delete();
+    else (new PostController())->index();
 } elseif (str_starts_with($route, 'post/')) {
     $action = substr($route, 5);
     $pc = new PostController();
