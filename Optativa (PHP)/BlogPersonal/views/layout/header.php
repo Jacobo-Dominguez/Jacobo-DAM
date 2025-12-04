@@ -6,6 +6,7 @@
     <title>Blog Personal</title>
     <link rel="stylesheet" href="/public/assets/css/style.css">
     <link rel="stylesheet" href="/public/assets/css/inline-styles.css">
+    <script src="/public/assets/js/menu.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -19,16 +20,32 @@
                     <?php endif; ?>
                     <span class="who"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
                 </a>
-                <?php if (!empty($_SESSION['user']['is_admin'])): ?>
-                    <a class="btn" href="?route=post/moderate">Moderar</a>
-                <?php endif; ?>
-                <a class="btn" href="?route=post/create">Crear post</a>
                 <form method="get" action="?route=post/search" class="search-form">
                     <input type="hidden" name="route" value="post/search">
                     <input type="text" name="q" placeholder="Buscar posts..." class="search-input">
                     <button type="submit" class="btn search-btn">🔍</button>
                 </form>
-                <a class="btn" href="?route=logout">Cerrar sesión</a>
+                <div class="hamburger-menu">
+                    <button class="hamburger-btn" aria-label="Menú">
+                        <div class="hamburger-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span class="menu-text">Menú</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="?route=post/create">Crear post</a>
+                        <?php if (!empty($_SESSION['user']['is_admin'])): ?>
+                            <a href="?route=post/moderate">Moderar posts</a>
+                        <?php endif; ?>
+                        <a href="?route=profile">Perfil</a>
+                        <?php if (!empty($_SESSION['user']['is_admin'])): ?>
+                            <a href="?route=user/manage">Gestión de usuarios</a>
+                        <?php endif; ?>
+                        <a href="?route=logout">Cerrar sesión</a>
+                    </div>
+                </div>
             <?php else: ?>
                 <a class="btn" href="?route=login">Iniciar sesión</a>
                 <a class="btn" href="?route=register">Registrarse</a>
