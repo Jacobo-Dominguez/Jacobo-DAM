@@ -16,9 +16,9 @@
                     <p class="status">Estado: <strong class="status-pending">pendiente</strong></p>
                     <p><?php echo nl2br(htmlspecialchars(substr($p['content'],0,200))); ?>...</p>
                     <div class="actions">
-                        <a class="btn" href="?route=post/show&id=<?php echo $p['id']; ?>">Ver completo</a>
-                        <a class="btn btn-approve" href="?route=post/approve&id=<?php echo $p['id']; ?>">✓ Aprobar</a>
-                        <a class="btn danger" href="?route=post/reject&id=<?php echo $p['id']; ?>" onclick="return confirm('¿Rechazar este post?')">✗ Rechazar</a>
+                        <a class="btn" href="?route=post/show&id=<?php echo $p['id']; ?>&from=moderate">Ver completo</a>
+                        <a class="btn btn-approve" href="?route=post/approve&id=<?php echo $p['id']; ?>">Aprobar</a>
+                        <a class="btn danger" href="?route=post/reject&id=<?php echo $p['id']; ?>" onclick="return confirm('¿Rechazar este post?')">Rechazar</a>
                     </div>
                 </article>
             <?php endforeach; ?>
