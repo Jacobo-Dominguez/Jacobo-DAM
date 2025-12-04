@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
     if (hamburgerBtn && dropdownMenu) {
-        // Toggle menu al hacer clic en el botón
+        // Menu al hacer clic en el botón
         hamburgerBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             hamburgerBtn.classList.toggle('active');
