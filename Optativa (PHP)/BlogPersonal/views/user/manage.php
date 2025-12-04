@@ -49,7 +49,7 @@
         </table>
     </div>
     
-    <p style="margin-top: 20px;">
+    <p>
         <a class="btn" href="?route=home">Volver al inicio</a>
     </p>
 </div>
