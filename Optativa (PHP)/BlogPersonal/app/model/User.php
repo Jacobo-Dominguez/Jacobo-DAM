@@ -105,4 +105,21 @@ class User
             throw $e;
         }
     }
+
+    // Obtiene todos los usuarios
+    public static function all()
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('SELECT id, name, email, is_admin, created_at FROM users ORDER BY created_at DESC');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Elimina un usuario por su ID
+    public static function delete($id)
+    {
+        $db = DB::connection();
+        $stmt = $db->prepare('DELETE FROM users WHERE id = ?');
+        return $stmt->execute([$id]);
+    }
 }
