@@ -183,4 +183,9 @@ En lugar de la paginación tradicional, se implementó un botón "Cargar más" q
 
 ## 🎨 Capturas de Pantalla
 
+![Captura login de sesion](/public/assets/images/image_login.png)
+![Captura registro de usuario](/public/assets/images/image_register.png)
+![Captura pagina principal](/public/assets/images/image_home.png)
+![Captura gestion de usuarios](/public/assets/images/image_gestion.png)
+![Captura crear posts](/public/assets/images/image_create.png)
 
