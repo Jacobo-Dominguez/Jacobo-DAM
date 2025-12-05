@@ -1,0 +1,135 @@
+@startuml BlogPersonal_Class_Diagram
+' ===== CONFIGURACIÓN =====
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+skinparam class {
+    BackgroundColor<<Core>> LightBlue
+    BackgroundColor<<Model>> LightGreen
+    BackgroundColor<<Controller>> LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+' ===== CORE CLASSES =====
+package "app\\core" {
+    class DB <<Singleton>> {
+        {static} -pdo : PDO
+        --
+        {static} +connection() : PDO
+    }
+    
+    class Auth <<Static>> {
+        --
+        {static} +user() : array|null
+        {static} +id() : int|null
+        {static} +isAdmin() : bool
+        {static} +loginByArray(user : array) : void
+        {static} +logout() : void
+    }
+    
+    class Helpers <<Static>> {
+        --
+        {static} +redirect(path : string) : void
+        {static} +view(path : string, data : array) : void
+    }
+}
+' ===== MODEL CLASSES =====
+package "app\\model" {
+    class User <<Model>> {
+        --
+        {static} +findByEmail(email : string) : array|false
+        {static} +findById(id : int) : array|false
+        {static} +create(name : string, email : string, password : string, avatar : blob, avatar_mime : string, description : string) : int
+        {static} +update(id : int, name : string, email : string, avatar : blob, avatar_mime : string, description : string) : bool
+    }
+    
+    class Post <<Model>> {
+        --
+        {static} +all() : array
+        {static} +allPublished(limit : int, offset : int) : array
+        {static} +allPending(limit : int, offset : int) : array
+        {static} +findByUser(user_id : int) : array
+        {static} +find(id : int) : array|false
+        {static} +create(user_id : int, title : string, content : string, image : string, category : string) : int
+        {static} +update(id : int, title : string, content : string, image : string, category : string) : bool
+        {static} +delete(id : int) : bool
+        {static} +setStatus(id : int, status : int) : bool
+        {static} +getCategories() : array
+        {static} +findByCategory(category : string, limit : int, offset : int) : array
+        {static} +search(query : string, limit : int, offset : int) : array
+        {static} +countPublished() : int
+        {static} +countPending() : int
+        {static} +countSearch(query : string) : int
+        {static} +countByCategory(category : string) : int
+    }
+}
+' ===== CONTROLLER CLASSES =====
+package "app\\controller" {
+    class AuthController <<Controller>> {
+        --
+        +login() : void
+        +register() : void
+        +profile() : void
+        +editProfile() : void
+        +logout() : void
+    }
+    
+    class PostController <<Controller>> {
+        --
+        +index() : void
+        +create() : void
+        +store() : void
+        +approve() : void
+        +reject() : void
+        +moderate() : void
+        +show() : void
+        +edit() : void
+        +update() : void
+        +delete() : void
+        +search() : void
+    }
+}
+' ===== RELACIONES =====
+' Controllers use Core classes
+AuthController ..> Helpers : <<use>>
+AuthController ..> Auth : <<use>>
+PostController ..> Helpers : <<use>>
+PostController ..> Auth : <<use>>
+' Controllers use Models
+AuthController ..> User : <<use>>
+PostController ..> Post : <<use>>
+' Models use DB
+User ..> DB : <<use>>
+Post ..> DB : <<use>>
+' Auth manages User session
+Auth ..> User : <<manages>>
+' ===== NOTAS =====
+note right of DB
+  <b>Singleton Pattern</b>
+  Proporciona una única
+  conexión PDO a MySQL
+  para todos los modelos
+end note
+note right of Auth
+  <b>Gestión de Sesión</b>
+  - Autenticación
+  - Autorización
+  - Roles (Admin/User)
+end note
+note bottom of Post
+  <b>Estados de Moderación:</b>
+  0 = Pendiente
+  1 = Publicado
+  2 = Rechazado
+end note
+note bottom of User
+  <b>Características:</b>
+  - Avatar como BLOB
+  - Passwords hasheados
+  - Campo is_admin para roles
+end note
+note top of PostController
+  <b>Sistema AJAX</b>
+  Carga dinámica de posts
+  (4 posts por página)
+end note
+@enduml
