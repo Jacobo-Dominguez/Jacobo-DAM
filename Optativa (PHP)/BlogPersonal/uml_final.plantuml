@@ -40,6 +40,8 @@ package "app\\model" {
         {static} +findById(id : int) : array|false
         {static} +create(name : string, email : string, password : string, avatar : blob, avatar_mime : string, description : string) : int
         {static} +update(id : int, name : string, email : string, avatar : blob, avatar_mime : string, description : string) : bool
+        {static} +all() : array
+        {static} +delete(id : int) : bool
     }
     
     class Post <<Model>> {
@@ -87,6 +89,12 @@ package "app\\controller" {
         +delete() : void
         +search() : void
     }
+    
+    class UserController <<Controller>> {
+        --
+        +manage() : void
+        +delete() : void
+    }
 }
 ' ===== RELACIONES =====
 ' Controllers use Core classes
@@ -94,9 +102,12 @@ AuthController ..> Helpers : <<use>>
 AuthController ..> Auth : <<use>>
 PostController ..> Helpers : <<use>>
 PostController ..> Auth : <<use>>
+UserController ..> Helpers : <<use>>
+UserController ..> Auth : <<use>>
 ' Controllers use Models
 AuthController ..> User : <<use>>
 PostController ..> Post : <<use>>
+UserController ..> User : <<use>>
 ' Models use DB
 User ..> DB : <<use>>
 Post ..> DB : <<use>>
@@ -126,10 +137,17 @@ note bottom of User
   - Avatar como BLOB
   - Passwords hasheados
   - Campo is_admin para roles
+  - Gestión de usuarios (Admin)
 end note
 note top of PostController
   <b>Sistema AJAX</b>
   Carga dinámica de posts
   (4 posts por página)
+end note
+note right of UserController
+  <b>Gestión de Usuarios</b>
+  Solo accesible por Admin
+  - Listar usuarios
+  - Eliminar usuarios
 end note
 @enduml
