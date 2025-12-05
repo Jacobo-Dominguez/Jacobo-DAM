@@ -7,6 +7,7 @@ Proyecto de gestión de contenidos (CMS) para un blog personal, desarrollado en 
 *   **Gestión de Usuarios:**
     *   Registro y Login seguro (contraseñas hasheadas).
     *   **Roles:** Administrador y Usuario estándar.
+    *   **Autenticacion** Autenticación por sesión PHP; la columna `is_admin` en la tabla `users` determina si un usuario es admin.
     *   **Perfil de Usuario:** Edición de perfil, avatar personalizado (con avatar por defecto para nuevos usuarios).
     *   **Panel de Administración:** Gestión completa de usuarios (visualización y eliminación) exclusiva para administradores.
 *   **Gestión de Posts:**
@@ -112,7 +113,7 @@ BLOGPERSONAL/
 3.  **Configuración:**
     *   Edita `config.php` con tus credenciales de base de datos:
     ```php
-    define('DB_HOST', 'localhost');
+    define('DB_HOST', '127.0.0.1');
     define('DB_NAME', 'blogpersonal');
     define('DB_USER', 'root');
     define('DB_PASS', '');
@@ -136,7 +137,9 @@ El sistema utiliza un enrutamiento basado en parámetros query (`?route=...`).
 | `?route=home` | Página principal (Lista de posts publicados) | Público |
 | `?route=login` | Iniciar sesión | Público |
 | `?route=register` | Registro de nuevos usuarios | Público |
+| `?route=logout` | Cerrar sesión | Público |
 | `?route=post/create` | Crear un nuevo post | Usuarios registrados |
+| `?route=post/store` | Accion para guardar post post | Usuarios registrados |
 | `?route=post/moderate` | Panel de moderación de posts | **Solo Admin** |
 | `?route=post/search` | Resultados de búsqueda | Público |
 | `?route=profile` | Ver perfil de usuario | Usuarios registrados |
