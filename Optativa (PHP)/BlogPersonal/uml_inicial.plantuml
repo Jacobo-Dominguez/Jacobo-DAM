@@ -1,0 +1,87 @@
+@startuml BlogPersonal_Simple_Diagram
+
+' ===== CONFIGURACIÓN =====
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+skinparam class {
+    BackgroundColor<<Entity>> LightBlue
+    BackgroundColor<<Controller>> LightYellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+' ===== ENTIDADES BÁSICAS =====
+class Usuario <<Entity>> {
+    +id : int
+    +nombre : string
+    +email : string
+    +password : string
+    +avatar : blob
+    +descripcion : text
+    +is_admin : boolean
+    +created_at : datetime
+}
+
+class Post <<Entity>> {
+    +id : int
+    +user_id : int
+    +titulo : string
+    +contenido : text
+    +imagen : string
+    +categoria : string
+    +created_at : datetime
+}
+
+' ===== CONTROLADORES =====
+class AuthController <<Controller>> {
+    +login() : void
+    +register() : void
+    +profile() : void
+    +editProfile() : void
+    +logout() : void
+}
+
+class PostController <<Controller>> {
+    +index() : void
+    +create() : void
+    +store() : void
+    +show() : void
+    +edit() : void
+    +update() : void
+    +delete() : void
+}
+
+' ===== RELACIONES =====
+' Relación entre entidades
+Usuario "1" -- "0..*" Post : crea >
+
+' Controladores gestionan entidades
+AuthController ..> Usuario : <<gestiona>>
+PostController ..> Post : <<gestiona>>
+PostController ..> Usuario : <<usa>>
+
+note right of Usuario
+  <b>Usuario</b>
+  Cada usuario puede
+  crear múltiples posts
+end note
+
+note right of Post
+  <b>Post</b>
+  Cada post pertenece
+  a un único usuario
+end note
+
+note bottom of AuthController
+  <b>Autenticación</b>
+  Gestiona login, registro
+  y perfil de usuarios
+end note
+
+note bottom of PostController
+  <b>Gestión de Posts</b>
+  CRUD completo de posts
+  para los usuarios
+end note
+
+@enduml
