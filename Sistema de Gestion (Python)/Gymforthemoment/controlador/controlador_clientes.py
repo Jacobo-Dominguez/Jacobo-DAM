@@ -61,3 +61,10 @@ class ControladorClientes:
         if cliente:
             cliente.moroso = estado
             self.editar(id_cliente, {"moroso": estado})
+
+    def listar_morosos(self):
+        """Retorna solo los clientes que son morosos"""
+        query = "SELECT * FROM clientes WHERE moroso=1"
+        filas = self.db.consultar(query)
+        return [Cliente(**f) for f in filas]
+
