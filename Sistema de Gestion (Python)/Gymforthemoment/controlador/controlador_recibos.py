@@ -54,3 +54,35 @@ class ControladorRecibos:
         if recibo:
             recibo.pagado = estado
             self.editar(id_recibo, {"pagado": estado})
+
+    def verificar_recibo_existe(self, id_cliente, mes, anio):
+        """Verifica si ya existe un recibo para un cliente en un mes/año específico"""
+        query = "SELECT * FROM recibos WHERE id_cliente=? AND mes=? AND anio=?"
+        fila = self.db.consultar_uno(query, (id_cliente, mes, anio))
+        return fila is not None
+
+    def generar_recibos_mes_todos(self, mes, anio):
+        """
+        Genera recibos para todos los clientes para un mes/año específico.
+        Retorna el número de recibos creados.
+        """
+        from controlador.controlador_clientes import ControladorClientes
+        ctrl_clientes = ControladorClientes()
+        
+        clientes = ctrl_clientes.listar()
+        recibos_creados = 0
+
+        for cliente in clientes:
+            # Verificar si ya existe recibo para este cliente en este mes/año
+            if not self.verificar_recibo_existe(cliente.id, mes, anio):
+                datos = {
+                    "id_cliente": cliente.id,
+                    "mes": mes,
+                    "anio": anio,
+                    "pagado": False
+                }
+                self.agregar(datos)
+                recibos_creados += 1
+
+        return recibos_creados
+
