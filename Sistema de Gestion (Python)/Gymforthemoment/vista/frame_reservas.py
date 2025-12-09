@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import customtkinter as ctk
 from controlador.controlador_reservas import ControladorReservas
 from controlador.controlador_clientes import ControladorClientes
 from controlador.controlador_aparatos import ControladorAparatos
@@ -18,20 +19,73 @@ class FrameReservas(ttk.Frame):
         self._cargar_reservas()
 
     def _crear_widgets(self):
-        ttk.Label(self, text="Gestión de Reservas", font=("Helvetica", 16, "bold")).pack(pady=10)
+        ttk.Label(self, text="📅 Gestión de Reservas", font=("Helvetica", 18, "bold")).pack(pady=15)
 
         top_frame = ttk.Frame(self)
-        top_frame.pack(fill="x", padx=10)
+        top_frame.pack(fill="x", padx=10, pady=10)
 
-        ttk.Label(top_frame, text="Buscar:").pack(side="left", padx=5)
+        # Buscador
+        ttk.Label(top_frame, text="🔍 Buscar:").pack(side="left", padx=5)
         self.var_buscar = tk.StringVar()
-        ttk.Entry(top_frame, textvariable=self.var_buscar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Filtrar", command=self._filtrar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Agregar", command=self._abrir_formulario_agregar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Editar", command=self._abrir_formulario_editar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Eliminar", command=self._eliminar_reserva).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Volver al menú", command=self.volver_callback).pack(side="right", padx=5)
+        ttk.Entry(top_frame, textvariable=self.var_buscar, width=20).pack(side="left", padx=5)
+        
+        # Botones con colores y emojis
+        btn_filtrar = ctk.CTkButton(
+            top_frame, 
+            text="🔎 Filtrar", 
+            command=self._filtrar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_filtrar.pack(side="left", padx=5)
+        
+        btn_agregar = ctk.CTkButton(
+            top_frame, 
+            text="➕ Agregar", 
+            command=self._abrir_formulario_agregar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_agregar.pack(side="left", padx=5)
+        
+        btn_editar = ctk.CTkButton(
+            top_frame, 
+            text="✏️ Editar", 
+            command=self._abrir_formulario_editar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_editar.pack(side="left", padx=5)
+        
+        btn_eliminar = ctk.CTkButton(
+            top_frame, 
+            text="🗑️ Eliminar", 
+            command=self._eliminar_reserva,
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            width=100,
+            height=32
+        )
+        btn_eliminar.pack(side="left", padx=5)
+        
+        btn_volver = ctk.CTkButton(
+            top_frame, 
+            text="🏠 Volver al menú", 
+            command=self.volver_callback,
+            fg_color="#7f8c8d",
+            hover_color="#95a5a6",
+            width=140,
+            height=32
+        )
+        btn_volver.pack(side="right", padx=5)
 
+        # Tabla
         self.tabla = ttk.Treeview(self, columns=("id", "id_cliente", "cliente", "aparato", "fecha", "hora"), show="headings")
         for col in self.tabla["columns"]:
             self.tabla.heading(col, text=col.replace("_", " ").capitalize())
