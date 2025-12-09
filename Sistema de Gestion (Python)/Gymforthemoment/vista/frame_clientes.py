@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import customtkinter as ctk
 from controlador.controlador_clientes import ControladorClientes
 from vista.formulario_cliente import FormularioCliente
 
@@ -10,25 +11,107 @@ class FrameClientes(ttk.Frame):
         self.volver_callback = volver_callback
 
         self.formulario_activo = None
+        self.mostrando_morosos = False  # Para rastrear si estamos mostrando solo morosos
 
         self._crear_widgets()
         self._cargar_clientes()
 
     def _crear_widgets(self):
-        ttk.Label(self, text="Gestión de Clientes", font=("Helvetica", 16, "bold")).pack(pady=10)
+        ttk.Label(self, text="👥 Gestión de Clientes", font=("Helvetica", 18, "bold")).pack(pady=15)
 
         top_frame = ttk.Frame(self)
-        top_frame.pack(fill="x", padx=10)
+        top_frame.pack(fill="x", padx=10, pady=10)
 
-        ttk.Label(top_frame, text="Buscar:").pack(side="left", padx=5)
+        # Buscador
+        ttk.Label(top_frame, text="🔍 Buscar:").pack(side="left", padx=5)
         self.var_buscar = tk.StringVar()
-        ttk.Entry(top_frame, textvariable=self.var_buscar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Filtrar", command=self._filtrar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Agregar", command=self._abrir_formulario_agregar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Editar", command=self._abrir_formulario_editar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Eliminar", command=self._eliminar_cliente).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Volver al menú", command=self.volver_callback).pack(side="right", padx=5)
+        ttk.Entry(top_frame, textvariable=self.var_buscar, width=20).pack(side="left", padx=5)
+        
+        # Botón Filtrar
+        btn_filtrar = ctk.CTkButton(
+            top_frame, 
+            text="🔎 Filtrar", 
+            command=self._filtrar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_filtrar.pack(side="left", padx=5)
+        
+        # Botón Agregar
+        btn_agregar = ctk.CTkButton(
+            top_frame, 
+            text="➕ Agregar", 
+            command=self._abrir_formulario_agregar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_agregar.pack(side="left", padx=5)
+        
+        # Botón Editar
+        btn_editar = ctk.CTkButton(
+            top_frame, 
+            text="✏️ Editar", 
+            command=self._abrir_formulario_editar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_editar.pack(side="left", padx=5)
+        
+        # Botón Eliminar
+        btn_eliminar = ctk.CTkButton(
+            top_frame, 
+            text="🗑️ Eliminar", 
+            command=self._eliminar_cliente,
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            width=100,
+            height=32
+        )
+        btn_eliminar.pack(side="left", padx=5)
+        
+        # Botón Ver Morosos
+        btn_morosos = ctk.CTkButton(
+            top_frame, 
+            text="⚠️ Ver Morosos", 
+            command=self._mostrar_morosos,
+            fg_color="#f39c12",
+            hover_color="#e67e22",
+            width=120,
+            height=32
+        )
+        btn_morosos.pack(side="left", padx=5)
+        
+        # Botón Ver Todos
+        btn_todos = ctk.CTkButton(
+            top_frame, 
+            text="👁️ Ver Todos", 
+            command=self._mostrar_todos,
+            fg_color="#2ecc71",
+            hover_color="#27ae60",
+            width=110,
+            height=32
+        )
+        btn_todos.pack(side="left", padx=5)
+        
+        # Botón Volver
+        btn_volver = ctk.CTkButton(
+            top_frame, 
+            text="🏠 Volver al menú", 
+            command=self.volver_callback,
+            fg_color="#7f8c8d",
+            hover_color="#95a5a6",
+            width=140,
+            height=32
+        )
+        btn_volver.pack(side="right", padx=5)
 
+        # Tabla
         self.tabla = ttk.Treeview(self, columns=("id", "nombre", "apellido", "email", "telefono", "moroso"), show="headings")
         for col in self.tabla["columns"]:
             self.tabla.heading(col, text=col.capitalize())
@@ -90,4 +173,22 @@ class FrameClientes(ttk.Frame):
 
     def _guardar_edicion_cliente(self, id_cliente, datos):
         self.ctrl.editar(id_cliente, datos)
+        self._cargar_clientes()
+
+    def _mostrar_morosos(self):
+        """Muestra solo los clientes morosos"""
+        self.mostrando_morosos = True
+        for fila in self.tabla.get_children():
+            self.tabla.delete(fila)
+
+        morosos = self.ctrl.listar_morosos()
+        for c in morosos:
+            self.tabla.insert("", "end", values=(c.id, c.nombre, c.apellido, c.email, c.telefono, "Sí" if c.moroso else "No"))
+        
+        if not morosos:
+            messagebox.showinfo("Información", "No hay clientes morosos")
+
+    def _mostrar_todos(self):
+        """Restaura la vista de todos los clientes"""
+        self.mostrando_morosos = False
         self._cargar_clientes()
