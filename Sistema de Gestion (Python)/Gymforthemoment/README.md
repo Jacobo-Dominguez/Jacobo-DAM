@@ -1,21 +1,34 @@
-# 📘 Sistema de Gestión para Gimnasio
+# 📘 Sistema de Gestión para Gimnasio - GymForTheMoment
 
-Este proyecto es una aplicación desarrollada en **Python** con **Tkinter** y **SQLite**, diseñada para proporcionar un sistema completo de gestión para gimnasios. Permite administrar clientes, recibos, aparatos y reservas mediante una interfaz gráfica sencilla e intuitiva.
+Este proyecto es una aplicación desarrollada en **Python** con **CustomTkinter**, **Tkinter**, **tkcalendar** y **SQLite**, diseñada para proporcionar un sistema completo de gestión para gimnasios. Permite administrar clientes, recibos, aparatos y reservas mediante una interfaz gráfica moderna, intuitiva y visualmente atractiva.
 
 ---
 
-# 🏋️‍♂️ ¿En qué consiste el proyecto?
+## 🏋️‍♂️ ¿En qué consiste el proyecto?
 
 El sistema permite gestionar:
 
-* **Clientes** → Alta, edición, búsqueda, eliminación, morosidad
+* **Clientes** → Alta, edición, búsqueda, eliminación, control de morosidad
 * **Aparatos** → Estado, tipo, disponibilidad
-* **Reservas** → Conexión cliente–aparato, fechas válidas, horas válidas
-* **Recibos** → Control de cuotas mensuales, selección por cliente
+* **Reservas** → Conexión cliente–aparato, validación de horarios, prevención de solapamientos
+* **Recibos** → Control de cuotas mensuales, generación masiva, seguimiento de pagos
+* **Reportes** → Disponibilidad de aparatos por día, visualización de ocupación
 
 ---
 
-# 📂 Estructura del Proyecto
+## ✨ Características Principales
+
+### 🎯 Cumplimiento Total de Requisitos
+- ✅ **Horario 24h lunes a viernes** - Validación automática de días laborables
+- ✅ **Sesiones de 30 minutos** - Selector de horas con intervalos predefinidos
+- ✅ **Prevención de solapamientos** - No permite reservas duplicadas
+- ✅ **Reportes de disponibilidad** - Vista detallada por aparato y día
+- ✅ **Generación masiva de recibos** - Crea recibos para todos los clientes automáticamente
+- ✅ **Control de morosidad** - Filtrado rápido de clientes morosos
+
+---
+
+## 📂 Estructura del Proyecto
 
 ```
 Gymforthemoment/
@@ -25,13 +38,14 @@ Gymforthemoment/
 │   ├── cliente.py
 │   ├── aparato.py
 │   ├── reserva.py
-│   ├── recibo.py
+│   └── recibo.py
 │
 ├── controlador/
 │   ├── controlador_clientes.py
 │   ├── controlador_aparatos.py
 │   ├── controlador_reservas.py
 │   ├── controlador_recibos.py
+│   └── controlador_reportes.py          
 │
 ├── vista/
 │   ├── interfaz.py
@@ -39,209 +53,246 @@ Gymforthemoment/
 │   ├── frame_aparatos.py
 │   ├── frame_reservas.py
 │   ├── frame_recibos.py
+│   ├── frame_reportes.py                
 │   ├── formulario_cliente.py
 │   ├── formulario_aparato.py
 │   ├── formulario_reserva.py
 │   ├── formulario_recibo.py
+│   └── utilidades.py
 │
 ├── datos_prueba.py
 ├── main.py
+├── gym.db
 └── README.md
 ```
 
 ---
 
-# 🧱 Arquitectura y organización
+## 🧱 Arquitectura y Organización
 
 El programa sigue un patrón **MVC simplificado**:
 
-* **Modelo** → Entidades + Base de datos
+* **Modelo** → Entidades + Base de datos SQLite
 * **Controlador** → Lógica intermedia, validaciones y operaciones CRUD
-* **Vista** → Interfaz Tkinter
+* **Vista** → Interfaz CustomTkinter/Tkinter con diseño moderno
 
 Esto permite separar responsabilidades y mantener un código claro y escalable.
 
 ---
 
-# 📦 MÓDULO MODELO
+## 📦 MÓDULO MODELO
 
-## base_datos.py
-
+### base_datos.py
 Encapsula todas las operaciones con SQLite.
-Funciones principales:
+- Ejecutar queries
+- Consultar uno/varios registros
+- Manejo automático de conexión
 
-* Ejecutar queries
-* Consultar uno
-* Consultar varios
-* Manejo automático de conexión
-
-## cliente.py
-
+### cliente.py
 Representa un cliente del gimnasio.
-Atributos:
+- `id`, `nombre`, `apellido`, `email`, `telefono`
+- `moroso` (booleano) - Control de pagos
 
-* `id`
-* `nombre`
-* `apellido`
-* `email`
-* `telefono`
-* `moroso` (booleano)
-
-## aparato.py
-
+### aparato.py
 Representa un aparato del gimnasio.
-Atributos:
+- `id`, `nombre`, `tipo`
+- `estado` (disponible, mantenimiento, ocupado)
 
-* `id`
-* `nombre`
-* `tipo`
-* `estado` (disponible, mantenimiento, ocupado)
-
-## reserva.py
-
+### reserva.py
 Representa una reserva de un cliente para un aparato.
-Atributos:
+- `id`, `id_cliente`, `id_aparato`
+- `fecha` (YYYY-MM-DD), `hora` (HH:MM)
 
-* `id`
-* `id_cliente`
-* `id_aparato`
-* `fecha` (YYYY-MM-DD)
-* `hora` (HH:MM)
-
-Incluye validaciones en la vista/controlador para evitar:
-
-* Reservas en fecha pasada
-* Reservas en hora pasada cuando es el día actual
-
-## recibo.py
-
+### recibo.py
 Representa un pago mensual.
-Atributos:
-
-* `id`
-* `id_cliente`
-* `mes` (int)
-* `anio` (int)
-* `pagado` (booleano)
-
-Validación incluida:
-
-* No se puede registrar un recibo de un mes anterior al actual.
+- `id`, `id_cliente`
+- `mes` (nombre del mes), `anio` (int)
+- `pagado` (booleano)
 
 ---
 
-# 🧠 CONTROLADORES
+## 🧠 CONTROLADORES
 
-Los controladores conectan el modelo con la vista.
-Realizan:
+### controlador_clientes.py
+- Agregar, editar, eliminar, listar
+- Obtener por ID
+- Marcar moroso
+- **Listar morosos** 
 
-* Validaciones
-* Consultas a la BD
-* Formateo de datos
-* Operaciones CRUD
+### controlador_aparatos.py
+- Agregar, editar, eliminar, listar
+- Cambiar estado
+- Obtener por ID
 
-## controlador_clientes.py
+### controlador_reservas.py
+- Agregar/editar con validaciones de horario
+- Eliminar reservas
+- Listar con relaciones (cliente–aparato)
+- **Verificar solapamiento** 
+- **Obtener reservas por aparato y fecha** 
 
-Funciones clave:
+### controlador_recibos.py
+- Añadir, editar, eliminar, listar
+- Marcar como pagado
+- **Generar recibos masivos** 
+- **Verificar duplicados** 
 
-* Agregar
-* Editar
-* Eliminar
-* Listar
-* Obtener por ID
-* Marcar moroso
-
-## controlador_aparatos.py
-
-Funciones clave:
-
-* Agregar
-* Editar
-* Eliminar
-* Cambiar estado
-* Listar
-* Obtener por ID
-
-## controlador_reservas.py
-
-Funciones clave:
-
-* Agregar reservas evitando fechas pasadas
-* Editar reservas respetando restricciones
-* Eliminar reservas
-* Listar con relaciones (cliente–aparato)
-
-## controlador_recibos.py
-
-Funciones clave:
-
-* Añadir recibos a la lista
-* Editar recibos existentes
-* Listar con nombres de cliente
+### controlador_reportes.py 
+- **Generar disponibilidad por día** - Reporte completo de ocupación
+- Obtener resumen de reservas
 
 ---
 
-# 🖼 VISTA (INTERFAZ TKINTER)
+## 🖼 VISTA (INTERFAZ)
 
-Toda la interfaz está organizada por módulos:
+### interfaz.py
+Menú principal con diseño moderno:
+- 🔴 Gestión de Clientes (Rojo)
+- 🔵 Gestión de Aparatos (Azul)
+- 🟢 Gestión de Reservas (Verde)
+- 🟠 Gestión de Recibos (Naranja)
+- 🟣 Reportes (Morado)
 
-## interfaz.py
+### frame_clientes.py
+- Tabla de clientes con búsqueda
+- Botones CRUD con colores distintivos
+- **Botón "Ver Morosos"** 
+- **Botón "Ver Todos"** 
+- Formulario modal para añadir/editar
 
-Contiene el menú principal y carga los distintos frames.
+### frame_aparatos.py
+- Tabla de aparatos con filtro
+- Botones CRUD con emojis
+- Alta, edición y borrado
 
-## frame_clientes.py
+### frame_reservas.py
+- Selección de cliente y aparato (combobox)
+- **Calendario visual para fechas** 
+- **Selector de horas (30 min)** 
+- Validación de días laborables
+- Prevención de solapamientos
+- Tabla con información completa
 
-✔ Tabla de clientes
-✔ Buscador
-✔ Botones CRUD
-✔ Formulario modal para añadir o editar
+### frame_recibos.py
+- Tabla con cliente, mes, año y estado
+- **Diálogo unificado mes/año** 
+- **Generación masiva de recibos** 
+- Nombres de meses en lugar de números
+- Alta con validación automática
 
-## frame_aparatos.py
+### frame_reportes.py 
+- **Calendario para seleccionar fecha**
+- **Pestañas por aparato**
+- **Tabla de disponibilidad hora por hora**
+- **Código de colores** (verde=libre, rojo=ocupado)
+- **Información del cliente** en horas ocupadas
+- Resumen de reservas del día
 
-✔ Muestra aparatos
-✔ Filtro
-✔ Alta, edición y borrado
-
-## frame_reservas.py
-
-✔ Selección de cliente mediante combobox
-✔ Selección de aparato mediante combobox
-✔ Control de fechas válidas
-✔ Control de horas válidas
-✔ Tabla mostrando:
-
-* ID Reserva
-* Cliente (ID + nombre)
-* Aparato (ID + nombre)
-* Fecha
-* Hora
-
-## frame_recibos.py
-
-✔ Tabla con:
-
-* ID
-* Cliente
-* Mes
-* Año
-* Pagado
-
-✔ Alta con validación automática de mes/año correcto
-
-## Formularios
-
-Cada entidad tiene su propio formulario modal para añadir/editar datos.
+### Formularios
+Cada entidad tiene su formulario modal:
+- **formulario_reserva.py** - Con calendario y selector de horas
+- **formulario_recibo.py** - Con nombres de meses
+- **formulario_cliente.py** - Con control de morosidad
+- **formulario_aparato.py** - Con selector de estado
 
 ---
 
-# 🧪 Datos de prueba
+## 🎨 Diseño Visual
 
-Incluidos en:
+### Paleta de Colores
+- **Azul Eléctrico** (#00d4ff) - Acciones principales
+- **Rojo** (#e74c3c) - Eliminar
+- **Verde** (#2ecc71) - Confirmar/Generar
+- **Naranja** (#f39c12) - Advertencias
+- **Gris** (#7f8c8d) - Navegación
+- **Fondo Oscuro** (#1a1a2e, #16213e) - Tema principal
 
+### Emojis Utilizados
+- 🔍 Buscar, 🔎 Filtrar
+- ➕ Agregar, ✏️ Editar, 🗑️ Eliminar
+- 📅 Calendario, ⏰ Hora
+- 💰 Recibos, 📊 Reportes
+- ⚠️ Morosos, 👁️ Ver todos
+- 🏠 Volver al menú
+
+---
+
+## 🔧 Validaciones Implementadas
+
+### Reservas
+- ✅ Solo lunes a viernes
+- ✅ No fechas pasadas
+- ✅ No horas pasadas (mismo día)
+- ✅ Solo intervalos de 30 minutos (XX:00, XX:30)
+- ✅ Sin solapamientos en mismo aparato/hora
+
+### Recibos
+- ✅ Nombres de meses (Enero, Febrero, etc.)
+- ✅ Prevención de duplicados
+- ✅ Generación masiva con confirmación
+
+### Clientes
+- ✅ Control de morosidad
+- ✅ Filtrado rápido de morosos
+
+---
+
+## 📊 Funcionalidades Destacadas
+
+### 1. Reportes de Disponibilidad
+- Selección de fecha con calendario
+- Vista por pestañas (una por aparato)
+- Tabla con 48 slots de 30 minutos (00:00 - 23:30)
+- Código de colores para ocupación
+- Nombre del cliente en horas ocupadas
+- Contador de reservas por aparato
+
+### 2. Generación Masiva de Recibos
+- Diálogo unificado con selectores
+- Nombres de meses en dropdown
+- Generación automática para todos los clientes
+- Prevención de duplicados
+- Mensaje con cantidad de recibos creados
+
+### 3. Control de Morosidad
+- Campo booleano en clientes
+- Botón "Ver Morosos" para filtrado rápido
+- Botón "Ver Todos" para restaurar vista
+- Indicador visual en tabla
+
+### 4. Calendario y Selectores
+- Widget de calendario (tkcalendar)
+- Selector de horas con opciones válidas
+- Eliminación de errores de formato
+- Validaciones automáticas integradas
+
+---
+
+## 🚀 Instalación y Uso
+
+### Requisitos
+```bash
+pip install customtkinter
+pip install tkcalendar
 ```
-datos_prueba.py
+
+### Ejecutar
+```bash
+python main.py
 ```
 
-Generan clientes, aparatos, reservas y recibos válidos.
+### Datos de Prueba
+```bash
+python datos_prueba.py
+```
 
 ---
+
+## 📝 Notas Técnicas
+
+- **Base de datos:** SQLite (gym.db)
+- **Framework UI:** CustomTkinter + Tkinter
+- **Calendario:** tkcalendar
+- **Patrón:** MVC simplificado
+- **Resolución:** 1280x720
+- **Tema:** Oscuro con acentos de color
