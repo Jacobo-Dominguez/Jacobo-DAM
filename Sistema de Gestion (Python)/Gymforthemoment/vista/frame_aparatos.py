@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import customtkinter as ctk
 from controlador.controlador_aparatos import ControladorAparatos
 from vista.formulario_aparato import FormularioAparato
 
@@ -13,20 +14,73 @@ class FrameAparatos(ttk.Frame):
         self._cargar_aparatos()
 
     def _crear_widgets(self):
-        ttk.Label(self, text="Gestión de Aparatos", font=("Helvetica", 16, "bold")).pack(pady=10)
+        ttk.Label(self, text="💪 Gestión de Aparatos", font=("Helvetica", 18, "bold")).pack(pady=15)
 
         top_frame = ttk.Frame(self)
-        top_frame.pack(fill="x", padx=10)
+        top_frame.pack(fill="x", padx=10, pady=10)
 
-        ttk.Label(top_frame, text="Buscar:").pack(side="left", padx=5)
+        # Buscador
+        ttk.Label(top_frame, text="🔍 Buscar:").pack(side="left", padx=5)
         self.var_buscar = tk.StringVar()
-        ttk.Entry(top_frame, textvariable=self.var_buscar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Filtrar", command=self._filtrar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Agregar", command=self._abrir_formulario_agregar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Editar", command=self._abrir_formulario_editar).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Eliminar", command=self._eliminar_aparato).pack(side="left", padx=5)
-        ttk.Button(top_frame, text="Volver al menú", command=self.volver_callback).pack(side="right", padx=5)
+        ttk.Entry(top_frame, textvariable=self.var_buscar, width=20).pack(side="left", padx=5)
+        
+        # Botones con colores y emojis
+        btn_filtrar = ctk.CTkButton(
+            top_frame, 
+            text="🔎 Filtrar", 
+            command=self._filtrar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_filtrar.pack(side="left", padx=5)
+        
+        btn_agregar = ctk.CTkButton(
+            top_frame, 
+            text="➕ Agregar", 
+            command=self._abrir_formulario_agregar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_agregar.pack(side="left", padx=5)
+        
+        btn_editar = ctk.CTkButton(
+            top_frame, 
+            text="✏️ Editar", 
+            command=self._abrir_formulario_editar,
+            fg_color="#00d4ff",
+            hover_color="#00a8cc",
+            width=100,
+            height=32
+        )
+        btn_editar.pack(side="left", padx=5)
+        
+        btn_eliminar = ctk.CTkButton(
+            top_frame, 
+            text="🗑️ Eliminar", 
+            command=self._eliminar_aparato,
+            fg_color="#e74c3c",
+            hover_color="#c0392b",
+            width=100,
+            height=32
+        )
+        btn_eliminar.pack(side="left", padx=5)
+        
+        btn_volver = ctk.CTkButton(
+            top_frame, 
+            text="🏠 Volver al menú", 
+            command=self.volver_callback,
+            fg_color="#7f8c8d",
+            hover_color="#95a5a6",
+            width=140,
+            height=32
+        )
+        btn_volver.pack(side="right", padx=5)
 
+        # Tabla
         self.tabla = ttk.Treeview(self, columns=("id", "nombre", "tipo", "estado"), show="headings")
         for col in self.tabla["columns"]:
             self.tabla.heading(col, text=col.capitalize())
