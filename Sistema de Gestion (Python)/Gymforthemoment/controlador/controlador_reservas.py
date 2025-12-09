@@ -46,3 +46,25 @@ class ControladorReservas:
     def obtener_por_id(self, id_reserva):
         fila = self.db.consultar_uno("SELECT * FROM reservas WHERE id=?", (id_reserva,))
         return Reserva(**fila) if fila else None
+
+    def verificar_solapamiento(self, id_aparato, fecha, hora, id_reserva_actual=None):
+        """
+        Verifica si existe una reserva para el mismo aparato, fecha y hora.
+        id_reserva_actual se usa al editar para excluir la reserva que se está editando.
+        """
+        query = "SELECT * FROM reservas WHERE id_aparato=? AND fecha=? AND hora=?"
+        params = (id_aparato, fecha, hora)
+        
+        if id_reserva_actual:
+            query += " AND id!=?"
+            params = (id_aparato, fecha, hora, id_reserva_actual)
+        
+        fila = self.db.consultar_uno(query, params)
+        return fila is not None
+
+    def obtener_reservas_por_aparato_fecha(self, id_aparato, fecha):
+        """Obtiene todas las reservas de un aparato en una fecha específica"""
+        query = "SELECT * FROM reservas WHERE id_aparato=? AND fecha=?"
+        filas = self.db.consultar(query, (id_aparato, fecha))
+        return [Reserva(**f) for f in filas]
+
